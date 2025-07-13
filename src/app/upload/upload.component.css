@@ -1,0 +1,35 @@
+
+.full-width {
+  width: 100%;   
+}
+
+.error{
+    color:red;
+    margin:10px 0;
+}
+
+.notes{
+  color:black
+}
+.btn{
+  margin: 10px 0;
+}
+
+.code-field.mat-form-field {
+  margin-top: 15px;
+}
+
+.code-field textarea.mat-input-element {
+  font-size: 14px;
+  background-color: #f7f9fc;
+  border-radius: 6px;
+  padding: 12px;
+  line-height: 1.5;
+  color: #2d2d2d;
+  resize: vertical;
+}
+
+.code-field .mat-form-field-label {
+  font-weight: 500;
+  color: #333;
+}

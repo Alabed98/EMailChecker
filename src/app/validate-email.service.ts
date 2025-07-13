@@ -1,0 +1,172 @@
+import { Injectable } from '@angular/core';
+
+interface Result {
+  errors: string[];
+  notes: string[];
+  correctedCode: string;
+}
+
+@Injectable({ providedIn: 'root' })
+export class ValidateEmailService {
+  htmlCode!: string;
+
+  validate(html: string = '', emailType:string): Result {
+    if (!html && this.htmlCode) {
+      html = this.htmlCode;
+    }
+
+    const parser = new DOMParser();
+    const htmlDom = parser.parseFromString(html, 'text/html');
+
+
+    const { errors, correctedCode } = emailType==="advance"?  this.checkAdvance(html, htmlDom):this.checkErrors(html, htmlDom);
+    const notes = this.checkNotes(html, htmlDom);
+
+    return {
+      errors,
+      notes,
+      correctedCode
+    };
+  }
+
+  checkErrors(html: string, htmlDom: Document): { errors: string[]; correctedCode: string } {
+    const errors: string[] = [];
+    let correctedCode = '';
+    const htmlLines = html.split('\n');
+
+    htmlLines.forEach((line, i) => {
+      let corrected = line;
+      const lineNumber = i + 1;
+
+      if (line.includes('target="_blank"')) {
+        errors.push(`${lineNumber}: target="_blank" gefunden`);
+        corrected = corrected.replace('target="_blank"', '');
+      }
+
+      if (line.includes(' €') || line.includes(' &euro;')) {
+        errors.push(`${lineNumber}: [FEHLT] Geschütztes Leerzeichen (&nbsp;) vor € fehlt`);
+        corrected = corrected.replace(/ €/g, '&nbsp;€');
+        corrected = corrected.replace(/ &euro/g, '&nbsp;&euro');
+      }
+
+      if (line.includes('alt=""') || line.includes('alt="Cover"')) {
+        errors.push(`${lineNumber}: alt-Attribut bei Bild nicht gesetzt oder gleich Cover`);
+      }
+
+      if (line.includes('ä')) {
+        errors.push(`${lineNumber}: Nicht konvertierte ä`);
+        corrected = corrected.replace(/ä/g, '&auml;');
+      }
+
+      if (line.includes('ü')) {
+        errors.push(`${lineNumber}: Nicht konvertierte ü`);
+        corrected = corrected.replace(/ü/g, '&uuml;');
+      }
+
+      if (line.includes('ö')) {
+        errors.push(`${lineNumber}: Nicht konvertierte ö`);
+        corrected = corrected.replace(/ö/g, '&ouml;');
+      }
+
+      if (line.includes('ß')) {
+        errors.push(`${lineNumber}: Nicht konvertierte ß`);
+        corrected = corrected.replace(/ß/g, '&szlig;');
+      }
+
+      if (line.includes(' %')) {
+        errors.push(`${lineNumber}: [FEHLT] Geschütztes Leerzeichen (&nbsp;) vor % fehlt`);
+        corrected = corrected.replace(/ %/g, '&nbsp;%');
+      }
+
+      correctedCode += corrected + '\n';
+    });
+
+    if (html.trim() === '') {
+      errors.push('Textarea ist leer');
+    }
+
+    const title = htmlDom.querySelector('title')?.textContent?.trim();
+    if (!title) {
+      errors.push('[FEHLT] <title>-Tag fehlt oder ist leer');
+    }
+
+    if (/googleapis\.com/.test(html)) {
+      errors.push('[WARNUNG] Google Fonts verwendet – bitte Bunny Fonts nutzen');
+    }
+
+    return { errors, correctedCode };
+  }
+
+  checkAdvance(html: string, htmlDom: Document):{ errors: string[]; correctedCode: string }{
+    const errors: string[] = [];
+
+    let correctedCode = ''
+
+    if(!html.includes('{header')){
+      errors.push('Verwendeter Header ist nicht {header}');
+    }
+
+    if(!html.includes('{footer}')){
+      errors.push('Verwendeter Header ist nicht {footer}');
+    }
+
+    if(!html.includes('{preHeader}')){
+      errors.push('PreHeader existiert nicht');
+    }
+
+    const links = this.checkLinks(htmlDom);
+
+    links.forEach(link => {
+      if(link != "{landingpageUrl}"){
+        errors.push("Links stimmen nicht")
+      }
+    });
+
+    if(links.size <1){
+      errors.push("Es wurden keine Links gefunden")
+    }
+    return {errors, correctedCode};
+  }
+  checkNotes(html: string, htmlDom: Document): string[] {
+    const notes: string[] = [];
+
+    const header = htmlDom.querySelector('.Logo') as HTMLImageElement;
+
+    if ((!header || !header.alt) && !html.includes('{header}')) {
+      notes.push('Header nicht gefunden');
+    } else if (html.includes('{header}')) {
+      notes.push('Verwendeter Header ist {header}');
+    } else {
+      notes.push('Verwendeter Header ist: ' + (header.alt || '[kein Alt-Text]'));
+    }
+
+    const impressum = htmlDom.querySelector('#impressum + p')?.textContent?.trim();
+    if (!impressum) {
+      notes.push('Impressum nicht gefunden');
+    } else {
+      notes.push('Verwendetes Impressum: ' + impressum);
+    }
+
+    const links = this.checkLinks(htmlDom)
+
+    if (links.size > 0) {
+      notes.push('Gefundene Links:');
+      links.forEach(link => notes.push(link));
+    }
+
+    return notes;
+  }
+
+  correct(zeile: string, zeichen: string, ersetzen: string): string {
+    return zeile.replace(new RegExp(zeichen, 'g'), ersetzen);
+  }
+
+  checkLinks(htmlDom:Document){
+    const links = new Set<string>();
+    htmlDom.querySelectorAll('a').forEach(a => {
+      if (a.href) links.add(a.getAttribute('href')  || '');
+    });
+
+    return links;
+  }
+}

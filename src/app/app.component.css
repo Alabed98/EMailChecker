@@ -1,0 +1,14 @@
+.textarea{
+   width: 100%;
+}
+
+.container-fluid{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.container{
+    width: 100%;
+}
+

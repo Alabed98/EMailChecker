@@ -1,0 +1,19 @@
+<div class="upload">
+  <div class="btn">
+    <app-file-upload></app-file-upload>
+  </div>
+
+  <div class="wrapper">
+    <mat-form-field appearance="fill" class="full-width code-field">
+      <mat-label>💻 HTML-Code eingeben</mat-label>
+      <textarea matInput [(ngModel)]="textarea" (ngModelChange)="checkErrors()" rows="10"></textarea>
+    </mat-form-field>
+  </div>
+  <div class="error">
+    <app-error-massage [errorMessage]="errors"></app-error-massage>
+  </div>
+
+  <div class="notes">
+<app-notes-massage [notesMassage] = "notes"></app-notes-massage>
+  </div>
+</div>

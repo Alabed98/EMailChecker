@@ -1,0 +1,15 @@
+
+<div class="row">
+    <div class="col-md-12">
+
+<input
+  type="file"
+  #fileInput
+  style="display: none"
+  (change)="onFileSelected($event)"
+/>
+
+<!-- Schöner Button, der den Input triggert -->
+<button class="upload-btn" (click)="fileInput.click()">📁 Datei hochladen</button>
+    </div>
+</div>
