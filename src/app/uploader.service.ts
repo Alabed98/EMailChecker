@@ -7,10 +7,10 @@ import { BehaviorSubject } from 'rxjs';
 export class UploaderService {
   private data = new BehaviorSubject<string>("");
   currentData$ = this.data.asObservable();
-  constructor() { }
 
+  constructor() { }
+  
   getData(file:string){
     this.data.next(file)
   }
-
 }

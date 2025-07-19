@@ -3,13 +3,13 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    background-color: white;
+    background-color: #bebbbe;
     padding: 0;
     margin-bottom:20px ;
 }
 h1{
     margin: 15px 0;
-    color: #689aa3;
+    color:#b9211c
 }
 .logo{
     flex-grow: 1;
@@ -18,17 +18,20 @@ h1{
 .options{
     flex-grow: 1;
     padding: 0 20px;
+    display: flex;
+    justify-content: end;
 }
 
 .option{
-    background-color: #689aa3;
+    background-color: #b9211c;
     padding: 4px;
     margin: 5px;
     border-radius: 4px;
-    color: white;
+    color: #bebbbe;
     text-decoration: none;
+    font-weight: 600;
 }
 .option:hover{
-    background-color: #3a5459;
+    background-color: #7f201d;
     transition: 1s;
 }

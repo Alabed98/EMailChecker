@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { ValidateEmailService } from '../validate-email.service';
 import { UploaderService } from '../uploader.service';
+import { CheckAdvanceService } from '../check-advance.service';
+import { ErrorsService } from '../errors.service';
+import { NotesService } from '../notes.service';
 
 @Component({
   selector: 'app-file-upload',
@@ -10,10 +13,23 @@ import { UploaderService } from '../uploader.service';
 })
 export class FileUploadComponent {
 
-  selectedFile: File |null = null;
-  emailService: ValidateEmailService = new ValidateEmailService();
+  selectedFile: File | null;
+  emailService: ValidateEmailService;
 
-  constructor(private uploader:UploaderService){}
+
+  constructor(
+    private uploader:UploaderService, 
+    private checkAdvance:CheckAdvanceService, 
+    private errorsService: ErrorsService,
+    private notesService:NotesService
+  ){
+    
+  this.selectedFile = null;
+  this.emailService= new ValidateEmailService(this.checkAdvance, this.errorsService, this.notesService);
+
+  }
+
+
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;

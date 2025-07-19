@@ -27,34 +27,22 @@ import { NotesMassageComponent } from "../notes-massage/notes-massage.component"
 })
 export class UploadComponent {
   textarea:string = '';
-  errors:string [] = [];
-  notes:string [] = [];
 
   @Input() emailType:string = "normal";
-  constructor(private validate: ValidateEmailService, private uploader:UploaderService) {}
+  constructor(
+    private validateService: ValidateEmailService, 
+    private uploader:UploaderService, 
+  ) {}
 
   ngOnInit(){
     this.uploader.currentData$.subscribe(data => {
-      this.check(data)
+      this.validateService.validate(data, this.emailType);
       this.textarea = data
     })
   }
 
   checkErrors(){
-    this.check(this.textarea)
+    this.validateService.validate(this.textarea, this.emailType);
     this.uploader.getData(this.textarea)
-  }
-
-  check(data: string) {
-    console.log(this.emailType)
-    const result = this.validate.validate(data, this.emailType);
-
-    this.errors = result.errors.length === 0
-      ? ["Keine Probleme gefunden"]
-      : [...result.errors];
-
-    this.notes = result.notes.length === 0
-      ? ["Keine Hinweise gefunden"]
-      : [...result.notes];
   }
 }

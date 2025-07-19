@@ -1,11 +1,14 @@
-    <h3>Hinweise</h3>
-    <ul>
-      <li *ngFor="let note of notesMassage">
-          <span *ngIf="note === 'Gefundene Links:'">
-            <b>{{ note }}</b>
-          </span>
-          <span *ngIf="note !== 'Gefundene Links:'">
-            {{ note }}
-  </span>
-      </li>
-    </ul>
+<div class="notes">
+  <h3><i class="fa-solid fa-note-sticky"></i> Hinweise</h3>
+  <ul>
+    <li *ngFor="let note of notesMassage">
+      <span *ngIf="note === 'Gefundene Links:'">
+        <b>{{ note }}</b>
+      </span>
+      <span *ngIf="note !== 'Gefundene Links:'">
+        {{ note }}
+      </span>
+    </li>
+  </ul>
+
+</div>

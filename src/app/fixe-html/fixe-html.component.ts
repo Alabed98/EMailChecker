@@ -7,21 +7,24 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 
+
 @Component({
   selector: 'app-fixe-html',
-  imports: [MatFormFieldModule,FormsModule,MatInputModule , MatButtonModule,CommonModule],
+  imports: [MatFormFieldModule, FormsModule, MatInputModule, MatButtonModule, CommonModule],
   templateUrl: './fixe-html.component.html',
   styleUrl: './fixe-html.component.css'
 })
 export class FixeHtmlComponent {
   textarea:string = "";
 
+  notes:string[]=[];
+  constructor(private validateEmail: ValidateEmailService, private uploader: UploaderService){
 
-  constructor(private validateEmail: ValidateEmailService, private uploader: UploaderService){}
+  }
 
   fixeCode(){
-    let data = this.uploader.currentData$.subscribe(data =>{ 
-      this.textarea = this.validateEmail.validate(data, "normal").correctedCode;
+    this.uploader.currentData$.subscribe(data =>{ 
+      this.textarea = this.validateEmail.validate(data, "normal");
     })
   }
 }

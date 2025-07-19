@@ -2,6 +2,7 @@
     max-width: 800px;
     width: 100%;
     padding:20px;
+    padding-bottom: 0;
 }
 
 .body{
@@ -9,3 +10,17 @@
     flex-direction: row;
     padding: 0 20px;
 }
+
+.massage{
+    max-width: 800px;
+    width: 100%;
+    padding:0 20px;
+
+}
+.massageTab{
+  background-color: #bebbbe;
+  padding:20px;
+  border-radius: 5px;
+  margin:20px 40px ;
+}
+

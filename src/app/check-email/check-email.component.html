@@ -1,8 +1,16 @@
-        <div class="body">
-            <div class="compnent">
-                <app-upload class="textarea"></app-upload>
-            </div>
-            <div class="compnent">
-                <app-fixe-html style="width: 100%; max-width: 800px;"></app-fixe-html>
-            </div>
-        </div>
+<div class="body">
+    <div class="compnent">
+        <app-upload class="textarea"></app-upload>
+    </div>
+    <div class="compnent">
+        <app-fixe-html style="width: 100%; max-width: 800px;"></app-fixe-html>
+    </div>
+</div>
+<div class="body massageTab">
+    <div class="massage">
+       <app-error-massage [errorMessage]="errors"></app-error-massage>
+    </div>
+    <div class="massage">
+        <app-notes-massage [notesMassage]="notes"></app-notes-massage>
+    </div>
+</div>
