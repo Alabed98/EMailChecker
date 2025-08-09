@@ -13,4 +13,8 @@ export class NotesService {
   getNotes(notes:string []){
     this.notes.next(notes);
   }
+
+  getValue(){
+    return this.notes.getValue()
+  }
 }

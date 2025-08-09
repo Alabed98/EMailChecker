@@ -11,7 +11,7 @@ export class ErrorMassageComponent {
 
 @Input() errorMessage:string [] =[];
 
-constructor(){
-  console.log(this.errorMessage)
-}
+  constructor(){
+    console.log(this.errorMessage)
+  }
 }

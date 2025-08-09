@@ -108,7 +108,13 @@ constructor(
     const header = htmlDom.querySelector('.Logo') as HTMLImageElement;
 
     if ((!header || !header.alt) && !html.includes('{header}')) {
-      notes.push('Header nicht gefunden');
+      if(html.includes('Investor Verlag')){
+         notes.push('Verwendeter Header: Investor');
+      }
+      if(html.includes('Gevestor Verlag')){
+        notes.push('Verwendeter Header: GeVestor');
+      }
+      else notes.push('Header nicht gefunden');
     } else if (html.includes('{header}')) {
       notes.push('Verwendeter Header ist {header}');
     } else {

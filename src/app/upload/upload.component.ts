@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -23,7 +23,8 @@ import { NotesMassageComponent } from "../notes-massage/notes-massage.component"
     NotesMassageComponent
 ],
   templateUrl: './upload.component.html',
-  styleUrl: './upload.component.css'
+  styleUrl: './upload.component.css',
+    encapsulation: ViewEncapsulation.None
 })
 export class UploadComponent {
   textarea:string = '';

@@ -11,9 +11,10 @@
 }
 
 .upload{
-  background-color: #bebbbe;
+  background-color: #18181b;
   padding:10px;
   border-radius: 5px;
+  border: 2px solid #228be6;
 }
 
 .fixe-btn:hover {
