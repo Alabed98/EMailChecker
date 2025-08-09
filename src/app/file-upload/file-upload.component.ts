@@ -6,6 +6,7 @@ import { ErrorsService } from '../errors.service';
 import { NotesService } from '../notes.service';
 import * as JSZip from 'jszip';
 import { ZipServiceService } from '../zip-service.service';
+import { CheckTypeService } from '../check-type.service';
 
 @Component({
   selector: 'app-file-upload',
@@ -24,11 +25,12 @@ export class FileUploadComponent {
     private checkAdvance:CheckAdvanceService, 
     private errorsService: ErrorsService,
     private notesService:NotesService,
-    private zipService:ZipServiceService
+    private zipService:ZipServiceService,
+    private checkTypeService:CheckTypeService
   ){
     
   this.selectedFile = null;
-  this.emailService= new ValidateEmailService(this.checkAdvance, this.errorsService, this.notesService);
+  this.emailService= new ValidateEmailService(this.checkAdvance, this.errorsService, this.notesService, this.checkTypeService);
 
   }
 

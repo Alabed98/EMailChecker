@@ -24,7 +24,7 @@ export class FixeHtmlComponent {
 
   fixeCode(){
     this.uploader.currentData$.subscribe(data =>{ 
-      this.textarea = this.validateEmail.validate(data, "normal");
+      this.textarea = this.validateEmail.validate(data, "normal")[0];
     })
   }
 }

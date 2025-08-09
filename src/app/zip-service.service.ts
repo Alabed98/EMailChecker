@@ -15,6 +15,10 @@ export class ZipServiceService {
   images:string[] = [];
 
   checkZipFile(file:JSZip, content:string){
+
+    // alte Notes werden beim Laden neuer Zip-Datei gelöscht. Dadurch werden alte Notes aus anderen ZIP-Dateien gelöscht
+    this.notesService.getNotes([]);
+
     file.forEach( async (relativePath, zipEntry) => {
       if(this.imageType.some(type => relativePath.includes(type))){
           this.images.push(relativePath)

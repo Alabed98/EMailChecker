@@ -3,6 +3,7 @@ import { CheckAdvanceComponent } from './check-advance/check-advance.component';
 import { CheckAdvanceService } from './check-advance.service';
 import { ErrorsService } from './errors.service';
 import { NotesService } from './notes.service';
+import { CheckTypeService } from './check-type.service';
 
 interface Result {
   correctedCode: string;
@@ -15,23 +16,36 @@ export class ValidateEmailService {
 constructor(
   private checkAdvance: CheckAdvanceService, 
   private errorsService:ErrorsService,
-  private notesService: NotesService
+  private notesService: NotesService,
+  private checkTypeService:CheckTypeService
 ) {}
 
-  validate(html: string = '', emailType:string): string {
+  validate(html: string = '', emailType:string): string [] {
     if (!html && this.htmlCode) {
       html = this.htmlCode;
     }
 
     const parser = new DOMParser();
     const htmlDom = parser.parseFromString(html, 'text/html');
+    let correctedCode:string = "";
+    let info="";
+    switch(emailType){
+      case 'advnce':
+        info =  this.checkAdvance.check(html, htmlDom)
+        break;
+      case 'checkType':
+        info =  this.checkTypeService.check(html, htmlDom)
+        break;
+      default: 
+        correctedCode = this.checkErrors(html,htmlDom);
 
+    }
 
-    const correctedCode:string = emailType==="advance"?  this.checkAdvance.check(html, htmlDom):this.checkErrors(html, htmlDom);
+    //const correctedCode:string = emailType==="advance"?  this.checkAdvance.check(html, htmlDom):this.checkErrors(html, htmlDom);
 
     this.checkNotes(html, htmlDom);
 
-    return correctedCode;
+    return [correctedCode, info];
   }
 
   checkErrors(html: string, htmlDom: Document): string {

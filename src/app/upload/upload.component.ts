@@ -1,4 +1,4 @@
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -35,11 +35,14 @@ export class UploadComponent {
     private uploader:UploaderService, 
   ) {}
 
+  @Output() newItemEvent = new EventEmitter<string>()
+
   ngOnInit(){
     this.uploader.currentData$.subscribe(data => {
-      this.validateService.validate(data, this.emailType);
+      this.newItemEvent.emit(this.validateService.validate(data, this.emailType)[1]);
       this.textarea = data
-    })
+
+    })  
   }
 
   checkErrors(){
