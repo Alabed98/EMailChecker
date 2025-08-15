@@ -3,12 +3,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { ValidateEmailService } from '../validate-email.service';
+import { ValidateEmailService } from '../services/validate-email.service';
 import { CommonModule } from '@angular/common';
 import { FileUploadComponent } from "../file-upload/file-upload.component";
-import { UploaderService } from '../uploader.service';
-import { ErrorMassageComponent } from "../error-massage/error-massage.component";
-import { NotesMassageComponent } from "../notes-massage/notes-massage.component";
+import { UploaderService } from '../services/uploader.service';
+import { NotesService } from '../services/notes.service';
 
 @Component({
   selector: 'app-upload',
@@ -19,12 +18,10 @@ import { NotesMassageComponent } from "../notes-massage/notes-massage.component"
     MatButtonModule,
     CommonModule,
     FileUploadComponent,
-    ErrorMassageComponent,
-    NotesMassageComponent
 ],
   templateUrl: './upload.component.html',
   styleUrl: './upload.component.css',
-    encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None
 })
 export class UploadComponent {
   textarea:string = '';
@@ -32,7 +29,8 @@ export class UploadComponent {
   @Input() emailType:string = "normal";
   constructor(
     private validateService: ValidateEmailService, 
-    private uploader:UploaderService, 
+    private uploader:UploaderService,
+    private notesService:NotesService 
   ) {}
 
   @Output() newItemEvent = new EventEmitter<string>()
@@ -41,7 +39,6 @@ export class UploadComponent {
     this.uploader.currentData$.subscribe(data => {
       this.newItemEvent.emit(this.validateService.validate(data, this.emailType)[1]);
       this.textarea = data
-
     })  
   }
 

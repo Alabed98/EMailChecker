@@ -1,28 +1,16 @@
 <div class="header">
+
   <div class="logo">
     <h1>E-Mail Qualitätschecker</h1>
   </div>
 
   <div class="options">
-    <nav>
-      <a routerLink="" class="option" >
-        Home
-      </a>
-
-      <a routerLink="/advance" class="option" >
-        Advance
-      </a>
-      <a routerLink="/checkEMailType" class="option" >
-        Type
-      </a>
-       <a routerLink="/checkEMailType" class="option" >
-        Investor
-      </a>
-
-       <a routerLink="/checkEMailType" class="option" >
-        GeVestor
-      </a>
-    </nav>
-
+    <select aria-label="Default select example" >
+      <option selected routerLink="" class="option">Check E-Mail</option>
+      <option value="1" routerLink="/advance" class="option"> Advance</option>
+      <option value="2" routerLink="/checkEMailType" class="option">Check Type</option>
+      <option value="3" routerLink="/checkEMailType" class="option">Investor</option>
+      <option value="4" routerLink="/checkEMailType" class="option">GeVestor</option>
+    </select>
   </div>
 </div>

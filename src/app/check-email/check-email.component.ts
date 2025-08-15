@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { UploadComponent } from "../upload/upload.component";
 import { FixeHtmlComponent } from "../fixe-html/fixe-html.component";
-import { ErrorsService } from '../errors.service';
+import { ErrorsService } from '../services/errors.service';
 import { ErrorMassageComponent } from "../error-massage/error-massage.component";
-import { NotesService } from '../notes.service';
+import { NotesService } from '../services/notes.service';
 import { NotesMassageComponent } from "../notes-massage/notes-massage.component";
+import { Notes } from '../notes';
 
 @Component({
   selector: 'app-check-email',
@@ -14,7 +15,7 @@ import { NotesMassageComponent } from "../notes-massage/notes-massage.component"
 })
 export class CheckEmailComponent {
   errors !:string [];
-  notes !:string [];
+  notes !:Notes;
   constructor(private errorsService:ErrorsService, private notesService:NotesService) {
     this.errorsService.currentErrors$.subscribe(data => {
       this.errors = data.length === 0
@@ -23,9 +24,8 @@ export class CheckEmailComponent {
     })
 
     this.notesService.currentNotes$.subscribe(data=>{
-      this.notes = data.length === 0
-      ? ["Keine Hinweise gefunden"]
-      : [...data];
+      console.log(data)
+      this.notes = data;
     })
   }
 

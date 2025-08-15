@@ -6,48 +6,50 @@
     background-color: #18181b;
     padding: 0;
     margin-bottom:20px ;
+    justify-content: space-between;
 }
+
+.logo{
+    padding: 0 20px;
+}
+
+.options{
+    padding: 0 20px;
+}
+
+select{
+    color: white;
+    background-color: #1f61e1;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 5px;
+    border: 0;
+    border-radius: 5px;
+}
+
+.option{
+background-color: #1f61e1;
+}
+
 h1{
     margin: 15px 0;
     color:#1f61e1
 }
-.logo{
-    flex-grow: 1;
-    padding: 0 20px;
-}
-.options{
-    flex-grow: 1;
-    padding: 0 20px;
-    display: flex;
-    justify-content: end;
-}
 
-.option{
-    background-color: #1f61e1;
-    padding: 4px;
-    margin: 5px;
-    border-radius: 4px;
-    color: white;
-    text-decoration: none;
-    font-weight: 600;
-}
-.option:hover{
-    background-color: #228be6;
-    transition: 1s;
-}
-
-@media only screen and (max-width: 760px)  {
-    .option{
-        display: flex;
-        flex-direction: column;
-        flex-grow: 1;
+@media only screen and (max-width: 860px)  {
+    select{
+        font-size: 0.9rem;
     }
+
 }
 
-@media only screen and (max-width:400px){
+@media only screen and (max-width:560px){
     .header{
         display: flex;
         flex-direction: column;
+    }
+    .options{
+        padding-bottom: 20px;
     }
     h1{
         text-align: center;

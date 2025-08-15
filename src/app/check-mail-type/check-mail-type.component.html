@@ -3,6 +3,9 @@
         <app-upload class="container" [emailType] ="'checkType'" (newItemEvent)="checkType2($event)"></app-upload>
     </div>
     <div  class="component massage">
-        {{type}}
+        <h1>Mail-Template: {{type}}</h1>
+
+        <app-error-massage [errorMessage]="errors"></app-error-massage>
+        <app-notes-massage [notesMassage]="notes"></app-notes-massage>
     </div>
 </div>

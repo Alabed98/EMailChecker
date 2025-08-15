@@ -1,16 +1,65 @@
 import { Component } from '@angular/core';
 import { UploadComponent } from '../upload/upload.component';
-import { ErrorMassageComponent } from '../error-massage/error-massage.component';
+import { ErrorsService } from '../services/errors.service';
+import { NotesService } from '../services/notes.service';
+import { ErrorMassageComponent } from "../error-massage/error-massage.component";
+import { NotesMassageComponent } from "../notes-massage/notes-massage.component";
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogRef,
+  MatDialogTitle,
+} from '@angular/material/dialog';
+import { DialogComponent } from '../dialog/dialog.component';
+import { Notes } from '../notes';
+
 @Component({
   selector: 'app-check-mail-type',
-  imports: [UploadComponent,ErrorMassageComponent],
+  imports: [UploadComponent, ErrorMassageComponent, NotesMassageComponent],
   templateUrl: './check-mail-type.component.html',
   styleUrl: './check-mail-type.component.css'
 })
 export class CheckMailTypeComponent {
-  type:String ="Unbekannt"
+  type:string ="Unbekannt"
+  errors:string[] = [];
+  notes:Notes = {
+    header: '',
+    impressum: '',
+    links: [],
+    unusedImages: [],
+    anotherNotes: []
+  };
 
-  checkType2(event:String){
+  constructor(
+     private errorService: ErrorsService,
+     private notesService: NotesService,
+     private dialog:MatDialog
+  ) {}
+ 
+
+  ngOnInit(){
+    this.errorService.currentErrors$.subscribe(data => {
+      this.errors = data;
+    })
+
+    this.notesService.currentNotes$.subscribe(data => {
+      this.notes = data
+    })
+ 
+  }
+  checkType2(event:string){
     this.type = event;
+    if(this.type !== "Unbekannt"){
+      this.openDialog();
+    }
+  }
+
+  openDialog():void{
+    const dialogRef =this.dialog.open(DialogComponent,{
+      data:this.type,
+    })
   }
 }

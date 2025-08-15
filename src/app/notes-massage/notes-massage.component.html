@@ -1,14 +1,39 @@
 <div class="notes">
-  <h3><i class="fa-solid fa-note-sticky"></i> Hinweise</h3>
+
+<h3><i class="fa-solid fa-note-sticky"></i> Hinweise</h3>
+
+<p><b>Verwendeter Header:</b> {{notesMassage.header}}</p>
+
+<p><b>Verwendetes Impressum:</b> {{notesMassage.impressum}}</p>
+
+
+<p><b>Gefundene Links:</b> <span *ngIf="notesMassage.links.length <1"> Keine Links</span></p>
+
   <ul>
-    <li *ngFor="let note of notesMassage">
-      <span *ngIf="note === 'Gefundene Links:'">
-        <b>{{ note }}</b>
-      </span>
-      <span *ngIf="note !== 'Gefundene Links:'">
+    <li *ngFor="let note of notesMassage.links" style="padding-bottom:5px">
         {{ note }}
-      </span>
     </li>
   </ul>
+
+<div *ngIf="notesMassage.unusedImages.length>0">
+  <p><b>Nicht benutzte Bilder:</b></p>
+  <ul>
+    <li *ngFor="let note of notesMassage.unusedImages" style="padding-bottom:5px">
+        {{ note }}
+    </li>
+  </ul>
+</div>
+
+
+<div *ngIf="notesMassage.anotherNotes.length>0">
+  <p><b>Zusätzliche Hinweise:</b></p>
+
+    <ul>
+    <li *ngFor="let note of notesMassage.anotherNotes" style="padding-bottom:5px">
+        {{ note }}
+    </li>
+  </ul>
+</div>
+
 
 </div>

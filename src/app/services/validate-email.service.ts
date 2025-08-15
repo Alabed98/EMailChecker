@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { CheckAdvanceComponent } from './check-advance/check-advance.component';
+import { CheckAdvanceComponent } from '../check-advance/check-advance.component';
 import { CheckAdvanceService } from './check-advance.service';
 import { ErrorsService } from './errors.service';
 import { NotesService } from './notes.service';
 import { CheckTypeService } from './check-type.service';
+import { Notes } from '../notes';
 
 interface Result {
   correctedCode: string;
@@ -40,8 +41,6 @@ constructor(
         correctedCode = this.checkErrors(html,htmlDom);
 
     }
-
-    //const correctedCode:string = emailType==="advance"?  this.checkAdvance.check(html, htmlDom):this.checkErrors(html, htmlDom);
 
     this.checkNotes(html, htmlDom);
 
@@ -117,39 +116,46 @@ constructor(
   }
 
   checkNotes(html: string, htmlDom: Document): void {
-    const notes: string[] = [];
+    let notes:Notes = {
+      header:'',
+      impressum:'',
+      links: [],
+      unusedImages: [],
+      anotherNotes: []
+    };
 
     const header = htmlDom.querySelector('.Logo') as HTMLImageElement;
 
     if ((!header || !header.alt) && !html.includes('{header}')) {
       if(html.includes('Investor Verlag')){
-         notes.push('Verwendeter Header: Investor');
+         notes.header = 'Investor';
       }
-      if(html.includes('Gevestor Verlag')){
-        notes.push('Verwendeter Header: GeVestor');
+      else if(html.includes('Gevestor Verlag')){
+        notes.header = 'GeVestor';
       }
-      else notes.push('Header nicht gefunden');
+      else{
+        notes.header = 'Header nicht gefunden';
+      } 
     } else if (html.includes('{header}')) {
-      notes.push('Verwendeter Header ist {header}');
+      notes.header = '{header}';
     } else {
-      notes.push('Verwendeter Header ist: ' + (header.alt || '[kein Alt-Text]'));
+      (header.alt || '[kein Alt-Text]');
     }
 
     const impressum = htmlDom.querySelector('#impressum + p')?.textContent?.trim();
     if (!impressum) {
-      notes.push('Impressum nicht gefunden');
+      notes.impressum = 'Impressum nicht gefunden';
     } else {
-      notes.push('Verwendetes Impressum: ' + impressum);
+      notes.impressum = impressum;
     }
 
     const links = this.checkLinks(htmlDom)
 
     if (links.size > 0) {
-      notes.push('Gefundene Links:');
-      links.forEach(link => notes.push(link));
+      links.forEach(link => notes.links.push(link));
     }
 
-    this.notesService.getNotes(notes);
+    this.notesService.setNotes(notes);
   }
 
   correct(zeile: string, zeichen: string, ersetzen: string): string {

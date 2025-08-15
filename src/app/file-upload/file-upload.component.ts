@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { ValidateEmailService } from '../validate-email.service';
-import { UploaderService } from '../uploader.service';
-import { CheckAdvanceService } from '../check-advance.service';
-import { ErrorsService } from '../errors.service';
-import { NotesService } from '../notes.service';
+import { ValidateEmailService } from '../services/validate-email.service';
+import { UploaderService } from '../services/uploader.service';
+import { CheckAdvanceService } from '../services/check-advance.service';
+import { ErrorsService } from '../services/errors.service';
+import { NotesService } from '../services/notes.service';
 import * as JSZip from 'jszip';
-import { ZipServiceService } from '../zip-service.service';
-import { CheckTypeService } from '../check-type.service';
+import { ZipServiceService } from '../services/zip-service.service';
+import { CheckTypeService } from '../services/check-type.service';
 
 @Component({
   selector: 'app-file-upload',
@@ -28,7 +28,6 @@ export class FileUploadComponent {
     private zipService:ZipServiceService,
     private checkTypeService:CheckTypeService
   ){
-    
   this.selectedFile = null;
   this.emailService= new ValidateEmailService(this.checkAdvance, this.errorsService, this.notesService, this.checkTypeService);
 
@@ -36,19 +35,29 @@ export class FileUploadComponent {
 
 
  async onFileSelected(event: Event) {
+    this.notesService.setNotes({  
+      header: '',
+      impressum: '',
+      links: [],
+      unusedImages: [],
+      anotherNotes: []
+});
+
     const input = event.target as HTMLInputElement;
 
     if (input.files && input.files.length > 0) {
       this.selectedFile = input.files[0];
     }
+
+
     if(this.selectedFile?.type === "application/x-zip-compressed"){
       const numberHtmlFiles = await this.checkNumberOfHtmlFiles(this.selectedFile);
 
-      //Error-Handel ist hier notwendig
-      if(!numberHtmlFiles){
+      
+      if(!numberHtmlFiles){ //Error-Handel ist hier notwendig
         throw new Error("Die Zip-Datei enthält mehr als eine HTML-Datei")
       }
-      
+/*
       // with the bib jszip can the zip-folder be readed
       const zip = await JSZip.loadAsync(this.selectedFile);
 
@@ -56,17 +65,23 @@ export class FileUploadComponent {
       zip.forEach(async (relativePath, zipEntry) => {
         if(zipEntry.name.match("html")){
           const content = await zipEntry.async("string");
+          
           this.uploader.getData(content);
           this.zipService.checkZipFile(zip, content)
         }
-      
       })
+
+      */
+      this.zipService.checkZipFile(this.selectedFile)
     }
 
-    else if(this.selectedFile != null){
+    else if(this.selectedFile?.name.match("html")){
         this.selectedFile?.text().then(data => {
         this.uploader.getData(data)
       })
+    }
+    else{
+      throw new Error("Dateitype ist nicht erlaubt")  //Error-Handel ist hier notwendig
     }
   }
 

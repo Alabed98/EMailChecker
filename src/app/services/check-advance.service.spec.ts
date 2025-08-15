@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { CheckAdvanceService } from './check-advance.service';
+import { CheckAdvanceService } from '../services/check-advance.service';
 
 describe('CheckAdvanceService', () => {
   let service: CheckAdvanceService;
