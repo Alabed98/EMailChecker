@@ -30,24 +30,19 @@ export class CheckAdvanceComponent {
     private snackbar:MatSnackBar
   ){
     this.errorsService.currentErrors$.subscribe(data =>{
-      //if(data[0] != "Textarea ist leer"){
+      if(data[0] != "Textarea ist leer"){
         this.errors = data;
-      //}
+      }
     }) 
 
     this.notesService.currentNotes$.subscribe(data=>{
-      this.notes.header = data.header;
-      this.notes.impressum = data.impressum;
-      this.notes.links = data.links;
-      this.notes.unusedImages = data.unusedImages;
-      this.notes.anotherNotes = data.anotherNotes
+      this.notes = {...data}
+
    if(
         this.notes.header === "{header}" &&
         this.notes.impressum === "{footer}" &&
-        this.notes.links.includes("{landingpageUrl}") 
-
-        // Hier fällt die Prüfung für preHeader
-      
+        this.notes.links.includes("{landingpageUrl}") &&
+        this.notes.preHeader === ("{preHeader}")      
       ){
         this.snackbar.open(
           "Advance-Platzhalter werden verwendet", 

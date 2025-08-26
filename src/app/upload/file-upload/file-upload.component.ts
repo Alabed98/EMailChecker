@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
-import { ValidateEmailService } from '../services/validate-email.service';
-import { UploaderService } from '../services/uploader.service';
-import { CheckAdvanceService } from '../services/check-advance.service';
-import { ErrorsService } from '../services/errors.service';
-import { NotesService } from '../services/notes.service';
+import { ValidateEmailService } from '../../services/validate-email.service';
+import { UploaderService } from '../../services/uploader.service';
+import { CheckAdvanceService } from '../../services/check-advance.service';
+import { ErrorsService } from '../../services/errors.service';
+import { NotesService } from '../../services/notes.service';
 import * as JSZip from 'jszip';
-import { ZipServiceService } from '../services/zip-service.service';
-import { CheckTypeService } from '../services/check-type.service';
-import { Notes } from '../notes';
+import { ZipServiceService } from '../../services/zip-service.service';
+import { CheckTypeService } from '../../services/check-type.service';
+import { Notes } from '../../notes';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-file-upload',
@@ -26,7 +27,8 @@ export class FileUploadComponent {
     private errorsService: ErrorsService,
     private notesService:NotesService,
     private zipService:ZipServiceService,
-    private checkTypeService:CheckTypeService
+    private checkTypeService:CheckTypeService, 
+    private snackbar:MatSnackBar
   ){
     this.emailService= new ValidateEmailService(this.checkAdvance, this.errorsService, this.notesService, this.checkTypeService);
   }    
@@ -61,7 +63,8 @@ export class FileUploadComponent {
       if(file.type === "application/x-zip-compressed"){
       const numberHtmlFiles = await this.checkNumberOfHtmlFiles(file);
 
-      if(numberHtmlFiles.length > 1){ //Error-Handel ist hier notwendig
+      if(numberHtmlFiles.length > 1){ 
+        this.snackbar.open("Die Zip-Datei enthält mehr als eine HTML-Datei", "Ok", {duration:3000})
         throw new Error("Die Zip-Datei enthält mehr als eine HTML-Datei")
       }
       this.zipService.checkZipFile(file)
@@ -74,7 +77,8 @@ export class FileUploadComponent {
       })
     }
     else{
-      throw new Error("Dateitype ist nicht erlaubt")  //Error-Handel ist hier notwendig
+      this.snackbar.open("Dateitype ist nicht erlaubt", "Ok", {duration:3000})
+      throw new Error("Dateitype ist nicht erlaubt") 
     }
   }
 

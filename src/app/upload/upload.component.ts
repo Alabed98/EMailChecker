@@ -7,7 +7,7 @@ import { ValidateEmailService } from '../services/validate-email.service';
 import { CommonModule } from '@angular/common';
 import { UploaderService } from '../services/uploader.service';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
-import { FileUploadComponent } from '../file-upload/file-upload.component';
+import { FileUploadComponent } from './file-upload/file-upload.component';
 import { EditorComponent } from "../editor/editor.component";
 import { NotesService } from '../services/notes.service';
 
@@ -48,9 +48,5 @@ export class UploadComponent {
       this.textarea = data
     })
   }
-  //wird wahrscheinlich nicht mehr verwendet
-  checkErrors(){
-    this.validateService.validate(this.textarea, this.emailType);
-    this.uploader.getData(this.textarea)
-  }
+
 }
