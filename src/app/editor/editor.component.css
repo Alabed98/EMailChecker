@@ -1,0 +1,15 @@
+
+.editor {
+  flex: 1;
+  border: 1px solid #333;
+  background-color: white;
+  max-width: 100%;
+  margin: 10px;
+  box-sizing: border-box !important;
+
+}
+
+::ng-deep .CodeMirror{
+  height:70vh;
+  box-sizing: border-box !important;
+}

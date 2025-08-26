@@ -28,6 +28,7 @@ export class CheckMailTypeComponent {
   notes:Notes = {
     header: '',
     impressum: '',
+    preHeader: '',
     links: [],
     unusedImages: [],
     anotherNotes: []

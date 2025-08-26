@@ -5,6 +5,7 @@ import { ErrorsService } from '../services/errors.service';
 import { NotesMassageComponent } from "../notes-massage/notes-massage.component";
 import { NotesService } from '../services/notes.service';
 import { Notes } from '../notes';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-check-advance',
@@ -18,14 +19,21 @@ export class CheckAdvanceComponent {
   notes:Notes = {
     header: '',
     impressum: '',
+    preHeader:'',
     links: [],
     unusedImages: [],
     anotherNotes: []
   };
-  constructor(private errorsService:ErrorsService, private notesService:NotesService){
+  constructor(
+    private errorsService:ErrorsService, 
+    private notesService:NotesService,
+    private snackbar:MatSnackBar
+  ){
     this.errorsService.currentErrors$.subscribe(data =>{
-      this.errors = data;
-    })
+      //if(data[0] != "Textarea ist leer"){
+        this.errors = data;
+      //}
+    }) 
 
     this.notesService.currentNotes$.subscribe(data=>{
       this.notes.header = data.header;
@@ -33,7 +41,21 @@ export class CheckAdvanceComponent {
       this.notes.links = data.links;
       this.notes.unusedImages = data.unusedImages;
       this.notes.anotherNotes = data.anotherNotes
+   if(
+        this.notes.header === "{header}" &&
+        this.notes.impressum === "{footer}" &&
+        this.notes.links.includes("{landingpageUrl}") 
 
+        // Hier fällt die Prüfung für preHeader
+      
+      ){
+        this.snackbar.open(
+          "Advance-Platzhalter werden verwendet", 
+          "Ok", 
+          {duration:4000, panelClass: ['green-snackbar', 'login-snackbar']})
+      }
     })
   }
+
 }
+

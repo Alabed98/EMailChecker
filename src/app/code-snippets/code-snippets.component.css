@@ -1,0 +1,119 @@
+.container{
+    width: 100%;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+    color: white;
+
+}
+
+.options-container{
+    margin: 0 20px;
+    width: 100%;
+    max-width: 400px;
+}
+
+.options{
+    background-color: #6b6b6b;
+    padding: 10px;
+    border-radius: 5px;
+    color:black
+}
+
+.codeAnzeige{
+    margin: 0 30px;
+    color:black;
+    border-radius: 5px;
+    width: 100%;
+    background-color: #6b6b6b;
+    padding: 5px; 
+}
+
+label{
+    font-weight: 600;
+    padding:0 10px ;
+}
+.btn{
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: 600;
+    background-color: #6b6b6b;
+    border: none;
+    color: black;
+    padding: 3px 5px;
+    margin: 5px 0;
+}
+
+.btn:hover{
+    color: white;
+    transition: 1s;
+    background-color: black;
+    border-radius: 5px;
+}
+
+textarea{
+    width: 100%;
+    font-size: 14px;
+    background-color: #1f1f1f;
+    border: none;
+    color: white;   
+    height: 90%;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.textAreaHeader{
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0 5px;
+}
+h3{
+    margin: 0;
+    padding: 0;
+}
+h4{
+    margin: 0; 
+    padding: 0;
+    font-size: 1rem;
+}
+
+.btnCopy{
+    background-color: black;
+    color:#6b6b6b;
+    border-radius: 5px;
+    padding: 3px 5px;
+    margin: 5px 0;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+}
+
+.btnCopy:hover{
+    background-color: #1f1f1f;
+    transition: 1ms;
+}
+select{
+    background-color: #1f1f1f;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    padding: 4px;
+}
+@media screen and (max-width:680px) {
+    .container{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .codeAnzeige{
+        width: 80%;
+        margin-top: 30px;
+    }
+    .options-container{
+        width: 80%;
+        max-width: 80%;
+    }
+
+}

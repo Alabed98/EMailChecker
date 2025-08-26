@@ -4,10 +4,7 @@
 
 
   <div class="wrapper">
+    <app-editor class="small" [content]="textarea"  ></app-editor>
 
-    <mat-form-field appearance="fill" class="full-width code-field">
-      <mat-label><i class="fa-brands fa-html5"></i> HTML-Code hochladen</mat-label>
-      <textarea matInput [(ngModel)]="textarea" (ngModelChange)="fixeCode()" rows="10"></textarea>
-    </mat-form-field>
   </div>
 </div>

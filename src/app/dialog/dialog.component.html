@@ -1,4 +1,19 @@
+
 <div class="dialog">
-    <h2>Die E-Mail ist im <span style="color:green">{{data}}-Template</span> hinterlegt </h2>
+
+       
+    <h2 *ngIf="data === 'unbekannt'">
+        <i class="fa-solid fa-circle-xmark" style="color: #ea2a33;font-size: 3rem;"></i>
+
+        <br>  <br>
+        <span  >Das Template der Mail ist unbekannt</span>
+    </h2>
+
+    <h2 *ngIf="data != 'unbekannt'">
+        <i class="fa-solid fa-circle-check" style="color: green;font-size: 3rem;"></i>
+
+        <br>  <br>
+        Die E-Mail ist im <span style="color:green">{{data}}-Template</span> hinterlegt </h2>
+
     <button mat-button mat-dialog-close>Schließen</button>
 </div>

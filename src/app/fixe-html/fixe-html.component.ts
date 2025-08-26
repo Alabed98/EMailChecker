@@ -6,11 +6,11 @@ import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
-
+import { EditorComponent } from '../editor/editor.component';
 
 @Component({
   selector: 'app-fixe-html',
-  imports: [MatFormFieldModule, FormsModule, MatInputModule, MatButtonModule, CommonModule],
+  imports: [MatFormFieldModule, FormsModule, MatInputModule, MatButtonModule, CommonModule,EditorComponent],
   templateUrl: './fixe-html.component.html',
   styleUrl: './fixe-html.component.css'
 })

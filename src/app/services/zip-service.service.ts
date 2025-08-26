@@ -15,30 +15,18 @@ export class ZipServiceService {
 
   imageType : string [] = ["png", "jpg", "gif"]
   images:string[] = [];
-/*
-  checkZipFile(file:JSZip, content:string){
 
-    // alte Notes werden beim Laden neuer Zip-Datei gelöscht. Dadurch werden alte Notes aus anderen ZIP-Dateien gelöscht
-    this.images = []
-    file.forEach( async (relativePath, zipEntry) => {
-      if(this.imageType.some(type => relativePath.includes(type))){
-          this.images.push(relativePath)
-      }
-      
-      if(relativePath.includes('css')){
-         this.addNotes("Die Zip-Datei enthält CSS-Dateien")
-      }
-    })
-    
-    if(this.images.length > 0) {
-      this.isImageUsed(this.images, content);
-    }
-    return(this.images)
-
-*/
 async checkZipFile(file:File){
-
-   // with the bib jszip can the zip-folder be readed
+   let notes = {
+        header: '',
+        impressum: '',
+        preHeader: '',
+        links: [],
+        unusedImages: [],
+        anotherNotes: []
+    };
+    this.notesService.setNotes(notes)
+    //with the bib jszip can the zip-folder be readed
       const zip = await JSZip.loadAsync(file);
 
       let content = "";
@@ -62,11 +50,10 @@ async checkZipFile(file:File){
       const zipSize=Math.floor(file.size / 1000);
 
       if(zipSize> 999){
-      this.addNotes("Die Größe der Zip-Datei ist: " + zipSize / 1000  + " mb")
+        this.addNotes("Die Größe der Zip-Datei ist: " + zipSize / 1000  + " mb")
       }
       else{
-      this.addNotes("Die Größe der Zip-Datei ist: " + zipSize  + " kb")
-
+        this.addNotes("Die Größe der Zip-Datei ist: " + zipSize  + " kb")
       }
   }
 
@@ -83,15 +70,17 @@ async checkZipFile(file:File){
   addImageNote(note:string){
     let currentNotes = this.notesService.getValue();
     currentNotes.unusedImages.push(note);
+    console.log("current Notes")
+    console.log(currentNotes)
     this.notesService.setNotes(currentNotes)
   }
 
     //Neue Hinweise werden hiermit eingefügt
   addNotes(note:string){
     let currentNotes = this.notesService.getValue();
-    currentNotes.anotherNotes.push(note)
-    this.notesService.setNotes(currentNotes)
+    currentNotes.anotherNotes.push(note);
+    console.log("current Notes")
+    console.log(currentNotes)
+    this.notesService.setNotes(currentNotes);
   }
-
-
 }

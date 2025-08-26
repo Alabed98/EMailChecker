@@ -12,20 +12,12 @@ export class NotesService {
   private notes = new BehaviorSubject<Notes>({  
   header: '',
   impressum: '',
+  preHeader: '',
   links: [],
   unusedImages: [],
   anotherNotes: []
 });
   currentNotes$ = this.notes.asObservable();
-/*
-  getNotes(notes: []){
-    this.notes.next(notes);
-  }
-
-  getValue(){
-    return this.notes.getValue()
-  }
-  */
 
   setNotes(notes:Notes){
     this.notes.next(notes)
@@ -33,6 +25,14 @@ export class NotesService {
 
   getValue(){
     return this.notes.getValue()
+  }
+  updateHeader(newNotes:Notes){
+    let newData :Notes= {...this.getValue(), ...newNotes}
+    console.log("alte DAten")
+    console.log(this.notes.getValue())
+        console.log("neue DAten")
+    console.log( newData)
+    this.setNotes(newData)
   }
 
 }

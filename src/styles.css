@@ -1,5 +1,4 @@
 /* You can add global styles to this file, and also import other style files */
-
 html, body { height: 100%; }
 body{
     margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
@@ -8,4 +7,18 @@ body{
 
 .mat-mdc-dialog-surface {
   border-radius: 6px !important;
+}
+
+app-editor.small .CodeMirror {
+  max-height: 40vh !important;
+}
+
+.green-snackbar{
+    --mdc-snackbar-container-color: #188731;
+    --mdc-snackbar-supporting-text-color: white; 
+}
+
+.green-snackbar .mat-mdc-snack-bar-action {
+  color: white !important;   /* z. B. Amber */
+  font-weight: bold;
 }

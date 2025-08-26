@@ -13,6 +13,7 @@ export class NotesMassageComponent {
   @Input() notesMassage:Notes = {  
   header: '',
   impressum: '',
+  preHeader:'',
   links: [],
   unusedImages: [],
   anotherNotes: []

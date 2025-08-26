@@ -7,6 +7,7 @@ import { NotesService } from '../services/notes.service';
 import * as JSZip from 'jszip';
 import { ZipServiceService } from '../services/zip-service.service';
 import { CheckTypeService } from '../services/check-type.service';
+import { Notes } from '../notes';
 
 @Component({
   selector: 'app-file-upload',
@@ -16,9 +17,8 @@ import { CheckTypeService } from '../services/check-type.service';
 })
 export class FileUploadComponent {
 
-  selectedFile: File | null;
   emailService: ValidateEmailService;
-
+  isDragOver= false;
 
   constructor(
     private uploader:UploaderService, 
@@ -28,55 +28,48 @@ export class FileUploadComponent {
     private zipService:ZipServiceService,
     private checkTypeService:CheckTypeService
   ){
-  this.selectedFile = null;
-  this.emailService= new ValidateEmailService(this.checkAdvance, this.errorsService, this.notesService, this.checkTypeService);
+    this.emailService= new ValidateEmailService(this.checkAdvance, this.errorsService, this.notesService, this.checkTypeService);
+  }    
+   notes:Notes = {
+        header: '',
+        impressum: '',
+        preHeader: '',
+        links: [],
+        unusedImages: [],
+        anotherNotes: []
+      };
 
+  async onFileSelected(event: Event) {
+    let files :FileList | null = null;
+    if(event instanceof Event && !(event instanceof DragEvent)){
+      const input = event.target as HTMLInputElement;
+      files = input.files;
+    }
+
+    if(event instanceof DragEvent){
+      files = event.dataTransfer?.files || null
+    }
+    
+    if (files && files.length > 0) {
+       await this.fileHandel(files[0])
+    }
   }
 
+  async fileHandel(file:File){
+      this.notesService.setNotes(this.notes)
 
- async onFileSelected(event: Event) {
-    this.notesService.setNotes({  
-      header: '',
-      impressum: '',
-      links: [],
-      unusedImages: [],
-      anotherNotes: []
-});
+      if(file.type === "application/x-zip-compressed"){
+      const numberHtmlFiles = await this.checkNumberOfHtmlFiles(file);
 
-    const input = event.target as HTMLInputElement;
-
-    if (input.files && input.files.length > 0) {
-      this.selectedFile = input.files[0];
-    }
-
-
-    if(this.selectedFile?.type === "application/x-zip-compressed"){
-      const numberHtmlFiles = await this.checkNumberOfHtmlFiles(this.selectedFile);
-
-      
-      if(!numberHtmlFiles){ //Error-Handel ist hier notwendig
+      if(numberHtmlFiles.length > 1){ //Error-Handel ist hier notwendig
         throw new Error("Die Zip-Datei enthält mehr als eine HTML-Datei")
       }
-/*
-      // with the bib jszip can the zip-folder be readed
-      const zip = await JSZip.loadAsync(this.selectedFile);
-
-      //zipEntry is the file in the zip-folder
-      zip.forEach(async (relativePath, zipEntry) => {
-        if(zipEntry.name.match("html")){
-          const content = await zipEntry.async("string");
-          
-          this.uploader.getData(content);
-          this.zipService.checkZipFile(zip, content)
-        }
-      })
-
-      */
-      this.zipService.checkZipFile(this.selectedFile)
+      this.zipService.checkZipFile(file)
     }
 
-    else if(this.selectedFile?.name.match("html")){
-        this.selectedFile?.text().then(data => {
+    else if(file.name.match("html")){
+        file.text().then(data => {
+
         this.uploader.getData(data)
       })
     }
@@ -86,14 +79,24 @@ export class FileUploadComponent {
   }
 
   async checkNumberOfHtmlFiles(file:File){
-      const zip = await JSZip.loadAsync(file);
-      let number = 0;
+    const zip = await JSZip.loadAsync(file);
 
-      zip.forEach((rellativePath, zipEntry) => {
-        if(zipEntry.name.match("html")){
-          number++
-        }
-      })
-      return number>1 ? false:true;
+    return Object.values(zip.files).filter(entry => entry.name.endsWith("html"))
+  }
+
+  onDrop(event: DragEvent){
+    event.preventDefault();
+    event.stopPropagation();
+    this.onFileSelected(event);
+  }
+
+  onDragOver(event:DragEvent){ 
+    event.preventDefault(); 
+    this.isDragOver = true; 
+  } 
+  
+  onDragLeave(event:DragEvent){ 
+    event.preventDefault(); 
+    this.isDragOver = false; 
   }
 }

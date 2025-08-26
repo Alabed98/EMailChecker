@@ -97,7 +97,6 @@ export class CheckTypeService {
   }
 
   checkTemplate():string{
-        console.log("spam" + this.spamUndAbmelden + " header:" +  this.header +" Imperssum:" + this.impressumg + "preheader" + this.preHeader + " link" + this.link )
     if(
       this.header === this.impressumg && 
       this.header === "Investor" && 

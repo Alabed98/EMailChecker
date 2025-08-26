@@ -7,14 +7,13 @@
   padding:10px;
   border-radius: 5px;
   border: 2px solid #228be6;
+
 }
 .notes{
   color:black
 }
 
-.btn{
-  margin: 10px 0;
-}
+
 
 .code-field.mat-form-field {
   margin-top: 15px;

@@ -1,13 +1,13 @@
 .fixe-btn {
-  padding: 10px 20px;
-  background-color: #218838;
+  padding: 10px 10px;
+  background-color: #edc139;
   border: none;
-  color: white;
+  color: black;
   font-weight: bold;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.2s ease;
-  margin: 10px 0;
+  margin: 10px;
 }
 
 .upload{
@@ -18,7 +18,7 @@
 }
 
 .fixe-btn:hover {
-  background-color: #395400;
+  background-color: #9c7d1f;
 }
 .code-field.mat-form-field {
   margin-top: 15px;

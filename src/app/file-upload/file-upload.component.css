@@ -1,5 +1,5 @@
 .upload-btn {
-  padding: 10px 20px;
+  padding: 10px 10px;
   background-color: #b9211c;
   border: none;
   color: white;
@@ -7,10 +7,21 @@
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  margin: 10px;
 
 
 }
 
 .upload-btn:hover {
   background-color: #7f201d;
+}
+
+.upload-container {
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.upload-container.dragover {
+  background-color: #b3b2b2;
+  border-color: #3f51b5;
+ 
 }

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { CheckAdvanceComponent } from '../check-advance/check-advance.component';
 import { CheckAdvanceService } from './check-advance.service';
 import { ErrorsService } from './errors.service';
 import { NotesService } from './notes.service';
@@ -94,7 +93,19 @@ constructor(
       if (line.includes(' %')) {
         errors.push(`${lineNumber}: [FEHLT] Geschütztes Leerzeichen (&nbsp;) vor % fehlt`);
         corrected = corrected.replace(/ %/g, '&nbsp;%');
-      }
+      }    
+      
+      if(
+        line.includes("../a")  || 
+        line.includes("https://static.fid-images.de/Investor/lp/bilder") ||
+        line.includes("https://static.fid-images.de/maxLQ/lp/bilder") 
+    ){
+      errors.push(`${lineNumber}: Das Bild wird nicht lokal geladen`)
+
+       corrected = corrected.replaceAll("../a " , "")
+       corrected = corrected.replaceAll("https://static.fid-images.de/Investor/lp/bilder", "images")
+       corrected = corrected.replaceAll("https://static.fid-images.de/maxLQ/lp/bilder", "images")
+    }
 
       correctedCode += corrected + '\n';
     });
@@ -117,8 +128,9 @@ constructor(
 
   checkNotes(html: string, htmlDom: Document): void {
     let notes:Notes = {
-      header:'',
-      impressum:'',
+      header: '',
+      impressum: '',
+      preHeader: '',
       links: [],
       unusedImages: [],
       anotherNotes: []
@@ -137,16 +149,22 @@ constructor(
         notes.header = 'Header nicht gefunden';
       } 
     } else if (html.includes('{header}')) {
-      notes.header = '{header}';
+        notes.header = '{header}';
     } else {
-      (header.alt || '[kein Alt-Text]');
+        (header.alt || '[kein Alt-Text]');
     }
-
     const impressum = htmlDom.querySelector('#impressum + p')?.textContent?.trim();
     if (!impressum) {
       notes.impressum = 'Impressum nicht gefunden';
     } else {
       notes.impressum = impressum;
+    }
+
+    if(html.includes("{preHeader}")){
+      notes.preHeader = "{preHeader}";
+    }
+    else{
+      notes.preHeader = "Unbekannt"
     }
 
     const links = this.checkLinks(htmlDom)
@@ -155,7 +173,20 @@ constructor(
       links.forEach(link => notes.links.push(link));
     }
 
+    let currentNotes = this.notesService.getValue();
+    notes.anotherNotes = currentNotes.anotherNotes;
+    notes.unusedImages = currentNotes.unusedImages;
+
     this.notesService.setNotes(notes);
+
+    notes = {
+      header: '',
+      impressum: '',
+      preHeader: '',
+      links: [],
+      unusedImages: [],
+      anotherNotes: []
+    };
   }
 
   correct(zeile: string, zeichen: string, ersetzen: string): string {

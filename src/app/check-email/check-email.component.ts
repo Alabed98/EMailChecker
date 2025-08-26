@@ -16,17 +16,20 @@ import { Notes } from '../notes';
 export class CheckEmailComponent {
   errors !:string [];
   notes !:Notes;
+
   constructor(private errorsService:ErrorsService, private notesService:NotesService) {
+  }
+  ngOnInit() {
     this.errorsService.currentErrors$.subscribe(data => {
-      this.errors = data.length === 0
-      ? ["Keine Probleme gefunden"]
-      : [...data];
-    })
+
+        this.errors = data.length === 0 //|| data[0] === "Textarea ist leer"
+        ? ["Keine Probleme gefunden"]
+        : data;
+      })
 
     this.notesService.currentNotes$.subscribe(data=>{
-      console.log(data)
       this.notes = data;
+
     })
   }
-
 }
