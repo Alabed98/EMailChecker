@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Notes } from '../notes';
+import { Notes } from '../../notes';
 @Component({
   selector: 'app-notes-massage',
   imports: [CommonModule],

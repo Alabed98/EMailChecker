@@ -3,13 +3,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { ValidateEmailService } from '../services/validate-email.service';
+import { ValidateEmailService } from '../../services/validate-email.service';
 import { CommonModule } from '@angular/common';
-import { UploaderService } from '../services/uploader.service';
+import { UploaderService } from '../../services/uploader.service';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { FileUploadComponent } from './file-upload/file-upload.component';
-import { EditorComponent } from "../editor/editor.component";
-import { NotesService } from '../services/notes.service';
+import { EditorComponent } from "../../components/editor/editor.component";
+import { NotesService } from '../../services/notes.service';
 
 
 export class AppModule {}
@@ -38,7 +38,8 @@ export class UploadComponent {
   constructor(
     private validateService: ValidateEmailService, private notesService:NotesService,
     private uploader:UploaderService,
-  ) {}
+  ) {
+  }
 
   @Output() newItemEvent = new EventEmitter<string>()
 

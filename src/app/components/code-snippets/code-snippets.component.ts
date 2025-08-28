@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { SNIPPETS } from '../templates';
+import { SNIPPETS } from '../../templates';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { EditorComponent } from "../editor/editor.component";
 

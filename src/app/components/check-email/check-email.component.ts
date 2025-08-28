@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { UploadComponent } from "../upload/upload.component";
 import { FixeHtmlComponent } from "../fixe-html/fixe-html.component";
-import { ErrorsService } from '../services/errors.service';
+import { ErrorsService } from '../../services/errors.service';
 import { ErrorMassageComponent } from "../error-massage/error-massage.component";
-import { NotesService } from '../services/notes.service';
+import { NotesService } from '../../services/notes.service';
 import { NotesMassageComponent } from "../notes-massage/notes-massage.component";
-import { Notes } from '../notes';
+import { Notes } from '../../notes';
 
 @Component({
   selector: 'app-check-email',

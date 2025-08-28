@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { UploadComponent } from "../upload/upload.component";
 import { ErrorMassageComponent } from "../error-massage/error-massage.component";
-import { ErrorsService } from '../services/errors.service';
+import { ErrorsService } from '../../services/errors.service';
 import { NotesMassageComponent } from "../notes-massage/notes-massage.component";
-import { NotesService } from '../services/notes.service';
-import { Notes } from '../notes';
+import { NotesService } from '../../services/notes.service';
+import { Notes } from '../../notes';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { ValidateEmailService } from '../services/validate-email.service';
-import { UploaderService } from '../services/uploader.service';
+import { ValidateEmailService } from '../../services/validate-email.service';
+import { UploaderService } from '../../services/uploader.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';

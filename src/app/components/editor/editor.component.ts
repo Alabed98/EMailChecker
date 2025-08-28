@@ -2,8 +2,8 @@ import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CodemirrorModule } from "@ctrl/ngx-codemirror";
 import 'codemirror/mode/javascript/javascript';
-import { UploaderService } from '../services/uploader.service';
-import { ValidateEmailService } from '../services/validate-email.service';
+import { UploaderService } from '../../services/uploader.service';
+import { ValidateEmailService } from '../../services/validate-email.service';
 
 @Component({
   selector: 'app-editor',

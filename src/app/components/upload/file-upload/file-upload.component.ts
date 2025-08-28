@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import { ValidateEmailService } from '../../services/validate-email.service';
-import { UploaderService } from '../../services/uploader.service';
-import { CheckAdvanceService } from '../../services/check-advance.service';
-import { ErrorsService } from '../../services/errors.service';
-import { NotesService } from '../../services/notes.service';
+import { ValidateEmailService } from '../../../services/validate-email.service';
+import { UploaderService } from '../../../services/uploader.service';
+import { CheckAdvanceService } from '../../../services/check-advance.service';
+import { ErrorsService } from '../../../services/errors.service';
+import { NotesService } from '../../../services/notes.service';
 import * as JSZip from 'jszip';
-import { ZipServiceService } from '../../services/zip-service.service';
-import { CheckTypeService } from '../../services/check-type.service';
-import { Notes } from '../../notes';
+import { ZipServiceService } from '../../../services/zip-service.service';
+import { CheckTypeService } from '../../../services/check-type.service';
+import { Notes } from '../../../notes';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({

@@ -1,20 +1,15 @@
 import { Component } from '@angular/core';
 import { UploadComponent } from '../upload/upload.component';
-import { ErrorsService } from '../services/errors.service';
-import { NotesService } from '../services/notes.service';
+import { ErrorsService } from '../../services/errors.service';
+import { NotesService } from '../../services/notes.service';
 import { ErrorMassageComponent } from "../error-massage/error-massage.component";
 import { NotesMassageComponent } from "../notes-massage/notes-massage.component";
 import {
-  MAT_DIALOG_DATA,
   MatDialog,
-  MatDialogActions,
-  MatDialogClose,
-  MatDialogContent,
-  MatDialogRef,
-  MatDialogTitle,
+
 } from '@angular/material/dialog';
-import { DialogComponent } from '../dialog/dialog.component';
-import { Notes } from '../notes';
+import { DialogComponent } from '../../dialog/dialog.component';
+import { Notes } from '../../notes';
 
 @Component({
   selector: 'app-check-mail-type',

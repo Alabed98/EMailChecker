@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
-import { CheckAdvanceComponent } from './check-advance/check-advance.component';
-import { CheckEmailComponent } from './check-email/check-email.component';
-import { CheckMailTypeComponent } from './check-mail-type/check-mail-type.component';
-import { CodeSnippetsComponent } from './code-snippets/code-snippets.component';
-import { EditorComponent } from './editor/editor.component';
+import { CheckAdvanceComponent } from './components/check-advance/check-advance.component';
+import { CheckEmailComponent } from './components/check-email/check-email.component';
+import { CheckMailTypeComponent } from './components/check-mail-type/check-mail-type.component';
+import { CodeSnippetsComponent } from './components/code-snippets/code-snippets.component';
+import { EditorComponent } from './components/editor/editor.component';
 
 export const routes: Routes = [
     {path:'', component:CheckEmailComponent},
