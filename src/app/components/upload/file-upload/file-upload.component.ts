@@ -60,7 +60,7 @@ export class FileUploadComponent {
   async fileHandel(file:File){
       this.notesService.setNotes(this.notes)
 
-      if(file.type === "application/x-zip-compressed"){
+      if(file.name.toLowerCase().endsWith(".zip")){
       const numberHtmlFiles = await this.checkNumberOfHtmlFiles(file);
 
       if(numberHtmlFiles.length > 1){ 
