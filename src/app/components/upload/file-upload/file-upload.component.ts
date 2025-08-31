@@ -1,14 +1,14 @@
-import { Component } from '@angular/core';
-import { ValidateEmailService } from '../../../services/validate-email.service';
+import { Component, Output ,EventEmitter} from '@angular/core';
 import { UploaderService } from '../../../services/uploader.service';
-import { CheckAdvanceService } from '../../../services/check-advance.service';
-import { ErrorsService } from '../../../services/errors.service';
 import { NotesService } from '../../../services/notes.service';
 import * as JSZip from 'jszip';
 import { ZipServiceService } from '../../../services/zip-service.service';
 import { CheckTypeService } from '../../../services/check-type.service';
-import { Notes } from '../../../notes';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CheckErrorsService } from '../../../services/check-errors.service';
+import { CheckNotesService } from '../../../services/check-notes.service';
+import { ErrorsService } from '../../../services/errors.service';
+import { Notes } from '../../../notes';
 
 @Component({
   selector: 'app-file-upload',
@@ -18,19 +18,25 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class FileUploadComponent {
 
-  emailService: ValidateEmailService;
+  //emailService: ValidateEmailService;
+
   isDragOver= false;
+
+  @Output() file = new EventEmitter<File| string>();
+
 
   constructor(
     private uploader:UploaderService, 
-    private checkAdvance:CheckAdvanceService, 
-    private errorsService: ErrorsService,
     private notesService:NotesService,
     private zipService:ZipServiceService,
     private checkTypeService:CheckTypeService, 
-    private snackbar:MatSnackBar
+    private snackbar:MatSnackBar, 
+    private checkErrorsService:CheckErrorsService,
+    private checkNotesService:CheckNotesService,
+    private errorsService:ErrorsService
   ){
-    this.emailService= new ValidateEmailService(this.checkAdvance, this.errorsService, this.notesService, this.checkTypeService);
+    //this.emailService= new ValidateEmailService(this.checkTypeService, this.checkErrorsService, this.checkNotesService, this.notesService, this.errorsService);
+   
   }    
    notes:Notes = {
         header: '',
@@ -39,7 +45,8 @@ export class FileUploadComponent {
         links: [],
         unusedImages: [],
         anotherNotes: []
-      };
+    };
+
 
   async onFileSelected(event: Event) {
     let files :FileList | null = null;
@@ -58,7 +65,7 @@ export class FileUploadComponent {
   }
 
   async fileHandel(file:File){
-      this.notesService.setNotes(this.notes)
+      //this.notesService.setNotes(this.notes)
 
       if(file.name.toLowerCase().endsWith(".zip")){
       const numberHtmlFiles = await this.checkNumberOfHtmlFiles(file);
@@ -66,14 +73,19 @@ export class FileUploadComponent {
       if(numberHtmlFiles.length > 1){ 
         this.snackbar.open("Die Zip-Datei enthält mehr als eine HTML-Datei", "Ok", {duration:3000})
         throw new Error("Die Zip-Datei enthält mehr als eine HTML-Datei")
+      }else{
+        this.file.emit(file);
+
+       // this.zipService.checkZipFile(file)
       }
-      this.zipService.checkZipFile(file)
+      
+      
     }
 
     else if(file.name.match("html")){
-        file.text().then(data => {
-
-        this.uploader.getData(data)
+        file.text().then(data => {   
+        //this.uploader.getData(data)
+          this.file.emit(data)
       })
     }
     else{

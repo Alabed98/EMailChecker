@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { NotesService } from './notes.service';
+import { Subject, Subscription, takeUntil } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CheckTypeService {
-
   constructor(private notesService:NotesService) { }
   header:string = "";
   impressumg:string = "";
@@ -13,6 +13,7 @@ export class CheckTypeService {
   preHeader:string = "";
   spamUndAbmelden:string = "";
   mailType = "Unbekannt";
+  private sub!:Subscription;
 
   check(content:string, dom:Document):string{
     this.setHeader(content);
@@ -21,7 +22,6 @@ export class CheckTypeService {
     this.setPreHeader(content);
     this.setSpamUndAbmelden(content);
     return this.checkTemplate()
-
   }
   setHeader(content:string){
     if(content.includes("Investor Verlag")){
@@ -77,6 +77,7 @@ export class CheckTypeService {
     this.notesService.currentNotes$.subscribe(data => {
       this.link = data.links;
     })
+    
   }
   setPreHeader(content:string){
     if(content.includes("{preHeader}")){
@@ -155,6 +156,9 @@ export class CheckTypeService {
     {
         this.mailType = "Investor";
     }
+    console.log(this.mailType)
     return this.mailType;
   }
+
+
 }

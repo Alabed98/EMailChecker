@@ -1,4 +1,4 @@
-import { Component, Input, ViewEncapsulation, Output, EventEmitter} from '@angular/core';
+import { Component, Input, ViewEncapsulation, Output, EventEmitter, OnDestroy} from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -10,6 +10,7 @@ import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { EditorComponent } from "../../components/editor/editor.component";
 import { NotesService } from '../../services/notes.service';
+import { Subject, takeUntil } from 'rxjs';
 
 
 export class AppModule {}
@@ -30,7 +31,7 @@ export class AppModule {}
   styleUrl: './upload.component.css',
   encapsulation: ViewEncapsulation.None
 })
-export class UploadComponent {
+export class UploadComponent implements OnDestroy {
   textarea:string = '';
 
   @Input() emailType:string = "normal";
@@ -40,14 +41,32 @@ export class UploadComponent {
     private uploader:UploaderService,
   ) {
   }
-
-  @Output() newItemEvent = new EventEmitter<string>()
+  private destroy$ = new Subject<void>()
+  @Output() checkMailTypeEvent = new EventEmitter<string>()
 
   ngOnInit(){
-    this.uploader.currentData$.subscribe(data => {
-      this.newItemEvent.emit(this.validateService.validate(data, this.emailType)[1]);
-      this.textarea = data
+    //this.uploader.currentData$.pipe(takeUntil(this.destroy$)).subscribe( data => {
+      //this.checkMailTypeEvent.emit(this.validateService.validate(data, this.emailType))
+     // this.textarea = data  
+    //})
+  }
+
+  async upload(file:File | string ){
+    if(file instanceof File){
+      this.validateService.validateZip(file)
+      console.log("zipFile logik")
+    }
+    else if(typeof file === "string"){
+     this.checkMailTypeEvent.emit(this.validateService.validate(file, this.emailType))
+    }
+    this.uploader.currentData$.pipe(takeUntil(this.destroy$)).subscribe( data => {
+      this.textarea = data;
     })
   }
 
+
+  ngOnDestroy(){
+    this.destroy$.next()
+    this.destroy$.complete()
+  }
 }

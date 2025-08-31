@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { UploadComponent } from '../upload/upload.component';
 import { ErrorsService } from '../../services/errors.service';
 import { NotesService } from '../../services/notes.service';
@@ -10,6 +10,7 @@ import {
 } from '@angular/material/dialog';
 import { DialogComponent } from '../../dialog/dialog.component';
 import { Notes } from '../../notes';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-check-mail-type',
@@ -17,7 +18,8 @@ import { Notes } from '../../notes';
   templateUrl: './check-mail-type.component.html',
   styleUrl: './check-mail-type.component.css'
 })
-export class CheckMailTypeComponent {
+export class CheckMailTypeComponent implements OnDestroy {
+
   type:string ="Unbekannt"
   errors:string[] = [];
   notes:Notes = {
@@ -28,6 +30,7 @@ export class CheckMailTypeComponent {
     unusedImages: [],
     anotherNotes: []
   };
+  private destroy$ = new Subject<void>()
 
   constructor(
      private errorService: ErrorsService,
@@ -37,11 +40,11 @@ export class CheckMailTypeComponent {
  
 
   ngOnInit(){
-    this.errorService.currentErrors$.subscribe(data => {
+    this.errorService.currentErrors$.pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.errors = data;
     })
 
-    this.notesService.currentNotes$.subscribe(data => {
+    this.notesService.currentNotes$.pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.notes = data
     })
  
@@ -57,5 +60,10 @@ export class CheckMailTypeComponent {
     const dialogRef =this.dialog.open(DialogComponent,{
       data:this.type,
     })
+  }
+
+  ngOnDestroy(){
+    this.destroy$.next()
+    this.destroy$.complete()
   }
 }

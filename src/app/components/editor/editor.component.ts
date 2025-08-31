@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CodemirrorModule } from "@ctrl/ngx-codemirror";
 import 'codemirror/mode/javascript/javascript';
@@ -28,10 +28,10 @@ export class EditorComponent {
   @Input() emailType!:string;
   
   constructor(private validateService:ValidateEmailService, private uploader:UploaderService){}
-  
+
   checkErrors(){
     this.validateService.validate(this.content, this.emailType)
-    this.uploader.getData(this.content)
+   // this.uploader.getData(this.content)
   }
 
 }

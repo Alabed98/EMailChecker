@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { CheckAdvanceService } from './check-advance.service';
-import { ErrorsService } from './errors.service';
-import { NotesService } from './notes.service';
 import { CheckTypeService } from './check-type.service';
-import { Notes } from '../notes';
+import { CheckErrorsService } from './check-errors.service';
+import { CheckNotesService } from './check-notes.service';
+import { NotesService } from './notes.service';
+import { ErrorsService } from './errors.service';
+import JSZip from 'jszip';
+import { UploaderService } from './uploader.service';
 
 interface Result {
   correctedCode: string;
@@ -14,13 +16,29 @@ export class ValidateEmailService {
   htmlCode!: string;
 
 constructor(
-  private checkAdvance: CheckAdvanceService, 
-  private errorsService:ErrorsService,
-  private notesService: NotesService,
-  private checkTypeService:CheckTypeService
+  private checkTypeService:CheckTypeService, 
+  private checkErrorsService:CheckErrorsService, 
+  private checkNotesService:CheckNotesService,
+  private notesService:NotesService,
+  private errorsService:ErrorsService, 
+  private uploaderService:UploaderService
 ) {}
 
-  validate(html: string = '', emailType:string): string [] {
+  imageType : string [] = ["png", "jpg", "gif"]
+  images:string[] = [];
+
+  validate(html: string = '', emailType:string ): string {
+
+    this.notesService.setNotes({
+        header: '',
+        impressum: '',
+        preHeader: '',
+        links: [],
+        unusedImages: [],
+        anotherNotes: []
+    })
+    this.errorsService.setErrors([])
+
     if (!html && this.htmlCode) {
       html = this.htmlCode;
     }
@@ -30,23 +48,89 @@ constructor(
     let correctedCode:string = "";
     let info="";
     switch(emailType){
-      case 'advnce':
-        info =  this.checkAdvance.check(html, htmlDom)
+      case 'advance':
+        info =  this.checkErrorsService.checkAdvance(html, htmlDom)
+        this.checkNotesService.checkNotes(html, htmlDom);
         break;
       case 'checkType':
         info =  this.checkTypeService.check(html, htmlDom)
+        
         break;
       default: 
-        correctedCode = this.checkErrors(html,htmlDom);
-
+        this.checkErrorsService.checkErrors(html,htmlDom);
+        this.checkNotesService.checkNotes(html, htmlDom);
     }
+    this.uploaderService.getData(html);
 
-    this.checkNotes(html, htmlDom);
+      //this.uploaderService.getData(html) // brauche ich das wirklich
 
-    return [correctedCode, info];
+    return info;
   }
 
-  checkErrors(html: string, htmlDom: Document): string {
+  async validateZip(file:File){
+     let notes = {
+            header: '',
+            impressum: '',
+            preHeader: '',
+            links: [],
+            unusedImages: [],
+            anotherNotes: []
+        };
+        //this.notesService.setNotes(notes)
+        //with the bib jszip can the zip-folder be readed
+          const zip = await JSZip.loadAsync(file);
+    
+          let content = "";
+          const htmlEntries = Object.values(zip.files).filter(entry => entry.name.endsWith(".html"));
+          if (htmlEntries.length > 0) {
+            content = await htmlEntries[0].async("string");
+            this.validate(content, "")
+          }
+    
+          const imageEntries = Object.values(zip.files).filter(entry =>  this.imageType.some(type => entry.name.includes(type)))
+          const images = imageEntries.map(entry => entry.name)
+          const cssEntries = Object.values(zip.files).filter(entry => entry.name.endsWith("css"));
+       
+          if(cssEntries.length > 0){
+            this.addNotes("Die Zip-Datei enthält CSS-Dateien")
+          }
+    
+          if(imageEntries.length > 0) {
+            this.isImageUsed(images, content);
+          }
+          const zipSize=Math.floor(file.size / 1000);
+    
+          if(zipSize> 999){
+            this.addNotes("Die Größe der Zip-Datei ist: " + zipSize / 1000  + " mb")
+          }
+          else{
+            this.addNotes("Die Größe der Zip-Datei ist: " + zipSize  + " kb")
+          }
+  }
+    
+  isImageUsed(images:string [], content:string){
+    let notUsedImage:string [] = []
+    images.forEach(imagePath => {
+      if(!content.includes(imagePath)){
+        this.addImageNote("Dieses Bild wird nicht benutzt: " +  imagePath)
+      }
+    })
+  }
+    
+  //Neue Hinweise werden hiermit eingefügt
+  addImageNote(note:string){
+    let currentNotes = this.notesService.getValue();
+    currentNotes.unusedImages.push(note);
+    this.notesService.setNotes(currentNotes)
+  }
+    
+        //Neue Hinweise werden hiermit eingefügt
+  addNotes(note:string){
+    let currentNotes = this.notesService.getValue();
+    currentNotes.anotherNotes.push(note);
+    this.notesService.setNotes(currentNotes);
+  }
+  /*checkErrors(html: string, htmlDom: Document): string {
     const errors: string[] = [];
     let correctedCode = '';
     const htmlLines = html.split('\n');
@@ -125,8 +209,8 @@ constructor(
     this.errorsService.getErrors(errors);
     return correctedCode ;
   }
-
-  checkNotes(html: string, htmlDom: Document): void {
+*/
+  /*checkNotes(html: string, htmlDom: Document): void {
     let notes:Notes = {
       header: '',
       impressum: '',
@@ -200,5 +284,5 @@ constructor(
     });
 
     return links;
-  }
+  }*/
 }

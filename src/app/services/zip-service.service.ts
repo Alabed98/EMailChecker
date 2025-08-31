@@ -70,8 +70,7 @@ async checkZipFile(file:File){
   addImageNote(note:string){
     let currentNotes = this.notesService.getValue();
     currentNotes.unusedImages.push(note);
-    console.log("current Notes")
-    console.log(currentNotes)
+
     this.notesService.setNotes(currentNotes)
   }
 
@@ -79,8 +78,6 @@ async checkZipFile(file:File){
   addNotes(note:string){
     let currentNotes = this.notesService.getValue();
     currentNotes.anotherNotes.push(note);
-    console.log("current Notes")
-    console.log(currentNotes)
     this.notesService.setNotes(currentNotes);
   }
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { UploadComponent } from "../upload/upload.component";
 import { ErrorMassageComponent } from "../error-massage/error-massage.component";
 import { ErrorsService } from '../../services/errors.service';
@@ -6,14 +6,17 @@ import { NotesMassageComponent } from "../notes-massage/notes-massage.component"
 import { NotesService } from '../../services/notes.service';
 import { Notes } from '../../notes';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Subject, takeUntil } from 'rxjs';
+import { FileUploadComponent } from "../upload/file-upload/file-upload.component";
+import { EditorComponent } from "../editor/editor.component";
 
 @Component({
   selector: 'app-check-advance',
-  imports: [UploadComponent, ErrorMassageComponent, NotesMassageComponent],
+  imports: [UploadComponent, ErrorMassageComponent, NotesMassageComponent, FileUploadComponent, EditorComponent],
   templateUrl: './check-advance.component.html',
   styleUrl: './check-advance.component.css'
 })
-export class CheckAdvanceComponent {
+export class CheckAdvanceComponent implements OnDestroy {
 
   errors:string[] = [];
   notes:Notes = {
@@ -24,18 +27,21 @@ export class CheckAdvanceComponent {
     unusedImages: [],
     anotherNotes: []
   };
+
+  private destroy$ = new Subject<void>();
+  
   constructor(
     private errorsService:ErrorsService, 
     private notesService:NotesService,
     private snackbar:MatSnackBar
   ){
-    this.errorsService.currentErrors$.subscribe(data =>{
+    this.errorsService.currentErrors$.pipe(takeUntil(this.destroy$)).subscribe(data =>{
       if(data[0] != "Textarea ist leer"){
         this.errors = data;
       }
     }) 
 
-    this.notesService.currentNotes$.subscribe(data=>{
+    this.notesService.currentNotes$.pipe(takeUntil(this.destroy$)).subscribe(data=>{
       this.notes = {...data}
 
    if(
@@ -52,5 +58,9 @@ export class CheckAdvanceComponent {
     })
   }
 
+  ngOnDestroy(){
+    this.destroy$.next()
+    this.destroy$.complete()
+  }
 }
 

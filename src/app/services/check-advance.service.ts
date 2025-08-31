@@ -36,7 +36,7 @@ export class CheckAdvanceService {
       if(links.size <1){
         errors.push("Es wurden keine Links gefunden")
       }
-      this.errorsService.getErrors(errors);
+      this.errorsService.setErrors(errors);
       return correctedCode;
   }
 

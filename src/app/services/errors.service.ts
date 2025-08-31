@@ -11,7 +11,8 @@ export class ErrorsService {
   errors = new BehaviorSubject<string []>([]);
   currentErrors$ = this.errors.asObservable();
 
-  getErrors(errors:string []){
+  setErrors(errors:string []){
+    console.log('setErrors() aufgerufen mit:', errors);
       this.errors.next(errors)
   }
 }

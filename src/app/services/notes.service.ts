@@ -28,10 +28,7 @@ export class NotesService {
   }
   updateHeader(newNotes:Notes){
     let newData :Notes= {...this.getValue(), ...newNotes}
-    console.log("alte DAten")
-    console.log(this.notes.getValue())
-        console.log("neue DAten")
-    console.log( newData)
+
     this.setNotes(newData)
   }
 
