@@ -6,7 +6,10 @@ import { Subject, Subscription, takeUntil } from 'rxjs';
   providedIn: 'root'
 })
 export class CheckTypeService {
-  constructor(private notesService:NotesService) { }
+  constructor(private notesService:NotesService) {  this.notesService.currentNotes$.subscribe(data => {
+      this.link = data.links;
+    })
+     }
   header:string = "";
   impressumg:string = "";
   link:string [] = [];
@@ -74,10 +77,7 @@ export class CheckTypeService {
       this.link.push("{landingpageUrl}")
     }
 
-    this.notesService.currentNotes$.subscribe(data => {
-      this.link = data.links;
-    })
-    
+  
   }
   setPreHeader(content:string){
     if(content.includes("{preHeader}")){
@@ -154,9 +154,8 @@ export class CheckTypeService {
       this.spamUndAbmelden === "Investor"
     )
     {
-        this.mailType = "Investor";
+      this.mailType = "Investor";
     }
-    console.log(this.mailType)
     return this.mailType;
   }
 

@@ -12,7 +12,7 @@ export class ErrorsService {
   currentErrors$ = this.errors.asObservable();
 
   setErrors(errors:string []){
-    console.log('setErrors() aufgerufen mit:', errors);
-      this.errors.next(errors)
+    //console.log('setErrors() aufgerufen mit:', errors);
+    this.errors.next(errors)
   }
 }

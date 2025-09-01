@@ -133,6 +133,7 @@ export class CheckErrorsService  {
   }
 
   correctCode(content:string) : string{
+    content = content.replace(/target="_blank"/g, '');
     content = content.replace(/ €/g, '&nbsp;€');
     content = content.replace(/ &euro;/g, '&nbsp;&euro;');
     content = content.replace(/ä/g, '&auml;');

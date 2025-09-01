@@ -5,7 +5,7 @@
   </div>
 
   <div class="options">
-    <select aria-label="Default select" >
+    <select aria-label="Default select" (change)="deleteNotesAndErrors()" >
       <option selected routerLink="" >Check E-Mail</option>
       <option value="1" routerLink="/advance"> Advance</option>
       <option value="2" routerLink="/checkEMailType" >Check Type</option>

@@ -54,7 +54,7 @@ constructor(
         break;
       case 'checkType':
         info =  this.checkTypeService.check(html, htmlDom)
-        
+        this.checkNotesService.checkNotes(html, htmlDom);
         break;
       default: 
         this.checkErrorsService.checkErrors(html,htmlDom);
@@ -62,7 +62,7 @@ constructor(
     }
     this.uploaderService.getData(html);
 
-      //this.uploaderService.getData(html) // brauche ich das wirklich
+    //this.uploaderService.getData(html) // brauche ich das wirklich
 
     return info;
   }

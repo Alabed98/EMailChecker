@@ -25,7 +25,9 @@ export class FixeHtmlComponent implements OnDestroy {
     private uploader: UploaderService,
     private checkErrorsService:CheckErrorsService
   ){
-
+    this.uploader.currentData$.subscribe(data=> {
+      this.textarea = ""
+    })
   }
 
    fixeCode(){

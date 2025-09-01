@@ -47,9 +47,9 @@ export class CheckMailTypeComponent implements OnDestroy {
     this.notesService.currentNotes$.pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.notes = data
     })
- 
   }
   checkType2(event:string){
+    console.log(event)
     this.type = event;
     if(this.type !== "Unbekannt"){
       this.openDialog();

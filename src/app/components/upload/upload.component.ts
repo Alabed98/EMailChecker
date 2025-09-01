@@ -54,7 +54,6 @@ export class UploadComponent implements OnDestroy {
   async upload(file:File | string ){
     if(file instanceof File){
       this.validateService.validateZip(file)
-      console.log("zipFile logik")
     }
     else if(typeof file === "string"){
      this.checkMailTypeEvent.emit(this.validateService.validate(file, this.emailType))

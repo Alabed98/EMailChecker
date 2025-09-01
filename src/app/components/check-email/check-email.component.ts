@@ -30,7 +30,6 @@ export class CheckEmailComponent implements OnDestroy {
 
     this.notesService.currentNotes$.pipe(takeUntil(this.destroy$)).subscribe(data=>{
       this.notes = data;
-
     })
   }
 
