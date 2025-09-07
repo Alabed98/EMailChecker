@@ -31,7 +31,6 @@ export class EditorComponent {
 
   checkErrors(){
     this.validateService.validate(this.content, this.emailType)
-   // this.uploader.getData(this.content)
   }
 
 }

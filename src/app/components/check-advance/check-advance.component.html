@@ -3,7 +3,7 @@
         <app-upload class="container" [emailType] = "'advance'"></app-upload>
     </div>
     <div  class="component massage">
-        <app-error-massage [errorMessage]="errors"></app-error-massage>
+        <app-error-massage *ngIf="errors.length >0" [errorMessage]="errors"></app-error-massage>
         <app-notes-massage [notesMassage]="notes"></app-notes-massage>
     </div>
 </div>

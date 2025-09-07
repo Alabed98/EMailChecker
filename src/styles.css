@@ -22,3 +22,7 @@ app-editor.small .CodeMirror {
   color: white !important;   /* z. B. Amber */
   font-weight: bold;
 }
+.componentbody{
+  box-sizing: border-box;
+  padding: 20px 0;
+}

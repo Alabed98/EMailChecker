@@ -28,7 +28,6 @@ export class NotesService {
   }
   updateHeader(newNotes:Notes){
     let newData :Notes= {...this.getValue(), ...newNotes}
-
     this.setNotes(newData)
   }
 

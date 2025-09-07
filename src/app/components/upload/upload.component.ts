@@ -9,7 +9,6 @@ import { UploaderService } from '../../services/uploader.service';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { EditorComponent } from "../../components/editor/editor.component";
-import { NotesService } from '../../services/notes.service';
 import { Subject, takeUntil } from 'rxjs';
 
 
@@ -37,19 +36,12 @@ export class UploadComponent implements OnDestroy {
   @Input() emailType:string = "normal";
 
   constructor(
-    private validateService: ValidateEmailService, private notesService:NotesService,
+    private validateService: ValidateEmailService,
     private uploader:UploaderService,
   ) {
   }
   private destroy$ = new Subject<void>()
   @Output() checkMailTypeEvent = new EventEmitter<string>()
-
-  ngOnInit(){
-    //this.uploader.currentData$.pipe(takeUntil(this.destroy$)).subscribe( data => {
-      //this.checkMailTypeEvent.emit(this.validateService.validate(data, this.emailType))
-     // this.textarea = data  
-    //})
-  }
 
   async upload(file:File | string ){
     if(file instanceof File){
@@ -62,7 +54,6 @@ export class UploadComponent implements OnDestroy {
       this.textarea = data;
     })
   }
-
 
   ngOnDestroy(){
     this.destroy$.next()

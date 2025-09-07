@@ -7,7 +7,7 @@ import { EditorComponent } from './components/editor/editor.component';
 import { AppDocumentationComponent } from './components/app-documentation/app-documentation.component';
 
 export const routes: Routes = [
-    {path:'', component:CheckEmailComponent},
+    {path:'checkEMail', component:CheckEmailComponent},
     {path: 'advance', component:CheckAdvanceComponent},
     {path:'checkEMailType', component:CheckMailTypeComponent},
     {path:'Code-Snippets', component:CodeSnippetsComponent},

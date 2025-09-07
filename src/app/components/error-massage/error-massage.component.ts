@@ -10,7 +10,4 @@ import { CommonModule } from '@angular/common';
 export class ErrorMassageComponent {
 
 @Input() errorMessage:string [] =[];
-
-  constructor(){
-  }
 }

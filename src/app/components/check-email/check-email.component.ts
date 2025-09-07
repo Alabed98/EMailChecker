@@ -23,7 +23,7 @@ export class CheckEmailComponent implements OnDestroy {
   ngOnInit() {
     this.errorsService.currentErrors$.pipe(takeUntil(this.destroy$)).subscribe(data => {
 
-        this.errors = data.length === 0 //|| data[0] === "Textarea ist leer"
+        this.errors = data.length === 0
         ? ["Keine Probleme gefunden"]
         : data;
       })

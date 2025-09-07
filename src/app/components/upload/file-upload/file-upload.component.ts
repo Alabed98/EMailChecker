@@ -1,13 +1,6 @@
 import { Component, Output ,EventEmitter} from '@angular/core';
-import { UploaderService } from '../../../services/uploader.service';
-import { NotesService } from '../../../services/notes.service';
 import * as JSZip from 'jszip';
-import { ZipServiceService } from '../../../services/zip-service.service';
-import { CheckTypeService } from '../../../services/check-type.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { CheckErrorsService } from '../../../services/check-errors.service';
-import { CheckNotesService } from '../../../services/check-notes.service';
-import { ErrorsService } from '../../../services/errors.service';
 import { Notes } from '../../../notes';
 
 @Component({
@@ -18,26 +11,13 @@ import { Notes } from '../../../notes';
 })
 export class FileUploadComponent {
 
-  //emailService: ValidateEmailService;
-
   isDragOver= false;
-
   @Output() file = new EventEmitter<File| string>();
 
-
   constructor(
-    private uploader:UploaderService, 
-    private notesService:NotesService,
-    private zipService:ZipServiceService,
-    private checkTypeService:CheckTypeService, 
-    private snackbar:MatSnackBar, 
-    private checkErrorsService:CheckErrorsService,
-    private checkNotesService:CheckNotesService,
-    private errorsService:ErrorsService
-  ){
-    //this.emailService= new ValidateEmailService(this.checkTypeService, this.checkErrorsService, this.checkNotesService, this.notesService, this.errorsService);
-   
-  }    
+    private snackbar:MatSnackBar,
+  ){}    
+
    notes:Notes = {
         header: '',
         impressum: '',
@@ -46,7 +26,6 @@ export class FileUploadComponent {
         unusedImages: [],
         anotherNotes: []
     };
-
 
   async onFileSelected(event: Event) {
     let files :FileList | null = null;
@@ -65,26 +44,20 @@ export class FileUploadComponent {
   }
 
   async fileHandel(file:File){
-      //this.notesService.setNotes(this.notes)
+    if(file.name.toLowerCase().endsWith(".zip")){
+    const numberHtmlFiles = await this.checkNumberOfHtmlFiles(file);
 
-      if(file.name.toLowerCase().endsWith(".zip")){
-      const numberHtmlFiles = await this.checkNumberOfHtmlFiles(file);
-
-      if(numberHtmlFiles.length > 1){ 
-        this.snackbar.open("Die Zip-Datei enthält mehr als eine HTML-Datei", "Ok", {duration:3000})
-        throw new Error("Die Zip-Datei enthält mehr als eine HTML-Datei")
-      }else{
-        this.file.emit(file);
-
-       // this.zipService.checkZipFile(file)
-      }
+    if(numberHtmlFiles.length > 1){ 
+      this.snackbar.open("Die Zip-Datei enthält mehr als eine HTML-Datei", "Ok", {duration:3000})
+      throw new Error("Die Zip-Datei enthält mehr als eine HTML-Datei")
+    }else{
+      this.file.emit(file);
+    }
       
       
     }
-
     else if(file.name.match("html")){
         file.text().then(data => {   
-        //this.uploader.getData(data)
           this.file.emit(data)
       })
     }
@@ -96,7 +69,6 @@ export class FileUploadComponent {
 
   async checkNumberOfHtmlFiles(file:File){
     const zip = await JSZip.loadAsync(file);
-
     return Object.values(zip.files).filter(entry => entry.name.endsWith("html"))
   }
 

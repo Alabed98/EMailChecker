@@ -12,89 +12,71 @@ export class CheckErrorsService  {
 
   checkErrors(html: string, htmlDom: Document) {
     const errors: string[] = [];
-    let correctedCode = '';
     const htmlLines = html.split('\n');
 
     htmlLines.forEach((line, i) => {
-      let corrected = line;
       const lineNumber = i + 1;
 
       if (line.includes('target="_blank"')) {
-        errors.push(`${lineNumber}: target="_blank" gefunden`);
-       // corrected = corrected.replace('target="_blank"', '');
+        errors.push(`${lineNumber}: Verwendung von target="_blank" gefunden – bitte entfernen.`);
       }
 
       if (line.includes(' €') || line.includes(' &euro;')) {
-        errors.push(`${lineNumber}: [FEHLT] Geschütztes Leerzeichen (&nbsp;) vor € fehlt`);
-       // corrected = corrected.replace(/ €/g, '&nbsp;€');
-       // corrected = corrected.replace(/ &euro/g, '&nbsp;&euro');
+        errors.push(`${lineNumber}: Vor dem Euro-Zeichen fehlt ein geschütztes Leerzeichen (&nbsp;).`);
       }
 
       if (line.includes('alt=""') || line.includes('alt="Cover"')) {
-        errors.push(`${lineNumber}: alt-Attribut bei Bild nicht gesetzt oder gleich Cover`);
+        errors.push(`${lineNumber}: Bild ohne aussagekräftiges alt-Attribut gefunden (leer oder "Cover").`);
       }
 
       if (line.includes('ä')) {
-        errors.push(`${lineNumber}: Nicht konvertierte ä`);
-       // corrected = corrected.replace(/ä/g, '&auml;');
+        errors.push(`${lineNumber}: Umlaut "ä" nicht konvertiert – bitte als &auml; schreiben.`);
       }
 
       if (line.includes('ü')) {
-        errors.push(`${lineNumber}: Nicht konvertierte ü`);
-        //corrected = corrected.replace(/ü/g, '&uuml;');
+        errors.push(`${lineNumber}: Umlaut "ü" nicht konvertiert – bitte als &uuml; schreiben.`);
       }
 
       if (line.includes('ö')) {
-        errors.push(`${lineNumber}: Nicht konvertierte ö`);
-       // corrected = corrected.replace(/ö/g, '&ouml;');
+        errors.push(`${lineNumber}: Umlaut "ö" nicht konvertiert – bitte als &ouml; schreiben.`);
       }
 
       if (line.includes('ß')) {
-        errors.push(`${lineNumber}: Nicht konvertierte ß`);
-        //corrected = corrected.replace(/ß/g, '&szlig;');
+        errors.push(`${lineNumber}: Zeichen "ß" nicht konvertiert – bitte als &szlig; schreiben.`);
       }
 
       if (line.includes(' %')) {
-        errors.push(`${lineNumber}: [FEHLT] Geschütztes Leerzeichen (&nbsp;) vor % fehlt`);
-        //corrected = corrected.replace(/ %/g, '&nbsp;%');
+        errors.push(`${lineNumber}: Vor dem Prozentzeichen fehlt ein geschütztes Leerzeichen (&nbsp;).`);
       }    
       
       if(
         line.includes("../a")  || 
         line.includes("https://static.fid-images.de/Investor/lp/bilder") ||
         line.includes("https://static.fid-images.de/maxLQ/lp/bilder") 
-    ){
-      errors.push(`${lineNumber}: Das Bild wird nicht lokal geladen`)
-
-       //corrected = corrected.replaceAll("../a " , "")
-       //corrected = corrected.replaceAll("https://static.fid-images.de/Investor/lp/bilder", "images")
-       //corrected = corrected.replaceAll("https://static.fid-images.de/maxLQ/lp/bilder", "images")
-    }
+      ){
+        errors.push(`${lineNumber}: Bild wird nicht lokal geladen`)
+      }
     
-      //correctedCode += corrected + '\n';
     });
 
     if (html.trim() === '') {
-      errors.push('Textarea ist leer');
+      errors.push('Eingabe ist leer – bitte HTML-Code einfügen.');
     }
 
     const title = htmlDom.querySelector('title')?.textContent?.trim();
     if (!title) {
-      errors.push('--: [FEHLT] <title>-Tag fehlt oder ist leer');
+      errors.push('[FEHLT]: <title>-Tag fehlt oder ist leer.');
     }
 
     if (/googleapis\.com/.test(html)) {
-      errors.push('[WARNUNG] Google Fonts verwendet – bitte Bunny Fonts nutzen');
+      errors.push('[WARNUNG]: Google Fonts gefunden – bitte stattdessen Bunny Fonts verwenden.');
     }
     this.errorService.setErrors(errors);
 
-    //return correctedCode ;
   }
 
-  checkAdvance(html: string, htmlDom: Document): string {
+  checkAdvance(html: string, htmlDom: Document) {
       const errors: string[] = [];
-
-      let correctedCode = ''
 
       if(!html.includes('{header}')){
         errors.push('Verwendeter Header ist nicht {header}');
@@ -112,15 +94,14 @@ export class CheckErrorsService  {
 
       links.forEach(link => {
         if(link != "{landingpageUrl}"){
-          errors.push("Links stimmen nicht")
+          errors.push(`Ungültiger Link gefunden: "${link}" – erlaubt ist nur {landingpageUrl}.`)
         }
       });
 
       if(links.size <1){
-        errors.push("Es wurden keine Links gefunden")
+        errors.push("Es wurden keine Links gefunden – bitte {landingpageUrl} einfügen.")
       }
       this.errorService.setErrors(errors);
-      return correctedCode;
   }
 
   checkLinks(htmlDom:Document) {

@@ -1,5 +1,144 @@
 
-<div class="container">
-    <p>Weitere Informationen zur Anwendung folgen bald.</p>
 
+<div class="container">
+<div class="body">
+    <div>
+        <div>
+            <h1>Über die Anwendung</h1>
+            <h4><span>Diese Anwendung unterstützt dich dabei, HTML-E-Mail-Templates automatisch zu prüfen, typische
+                    Fehler zu
+                    korrigieren und hilfreiche Hinweise auszugeben. So kannst du sicherstellen, dass deine E-Mails
+                    technisch
+                    sauber und konsistent bleiben.</span>
+                <br><br>
+    Neben der klassischen Fehlerprüfung kannst du ganze ZIP-Ordner mit Html-Datei und Bildern hochladen, die Anwendung erkennt dabei 
+    auch ungenutzte Bilder oder unnötige CSS-Dateien. Außerdem werden wichtige Platzhalter überprüft, die für ein einheitliches 
+    Layout sorgen, und du erhältst eine Übersicht über verwendete Links, Header, PreHeader und Impressum. <br><br>
+    So sparst du Zeit, vermeidest wiederkehrende Fehler und stellst sicher, dass deine E-Mails professionell und 
+    zuverlässig umgesetzt werden.
+</h4>
+        </div>
+    </div>
+
+    <div>
+        <mat-accordion>
+            <mat-expansion-panel hideToggle>
+
+                <mat-expansion-panel-header>
+                    <mat-panel-title>&nbsp;<i class="fa-solid fa-circle-info" ></i>&nbsp; Was
+                        prüft
+                        die Anwendung? </mat-panel-title>
+                </mat-expansion-panel-header>
+                <p>Die Anwendung durchsucht dein HTML und erkennt typische Fehler oder fehlende Elemente.</p>
+
+                <p>Dazu gehören unter anderem:</p>
+                <ul>
+                    <li>Verwendung von <span class="code">target="_blank</span></li>
+                    <li>Falsch geschriebene Sonderzeichen (ä, ö, ü, ß → müssen HTML-Entities sein)</li>
+                    <li>Fehlende geschützte Leerzeichen vor € oder %</li>
+                    <li>Leere oder unklare <span class="code">alt</span>-Attribute bei Bildern</li>
+                    <li>Externe oder falsche Bildpfade</li>
+                    <li>Fehlende oder leere <span class="code">&lt;title&gt;</span>-Tags</li>
+                    <li>Nutzung von Google Fonts (stattdessen werden Bunny Fonts empfohlen)</li>
+                    <li>Bei Advance: Fehlende Platzhalter wie <span class="code">&#123;header&#125;</span>, <span
+                            class="code">&#123;footer&#125;</span> oder <span class="code">&#123;preHeader&#125;</span>
+                    </li>
+                    <li>Bei Advance: Ungültige Links (erlaubt ist nur <span
+                            class="code">&#123;landingpageUrl&#125;</span>)
+                    </li>
+                </ul>
+
+                <p>Prüfung innerhalb der ZIP</p>
+                <ul>
+                    <li>Alle Bilder werden überprüft, ob sie im HTML verwendet werden.</li>
+                    <li>CSS-Dateien werden erkannt und ein Hinweis wird ausgegeben, falls welche enthalten sind.</li>
+                    <li>Die Größe der ZIP-Datei wird berechnet und als KB oder MB angezeigt.</li>
+                </ul>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>&nbsp;<i class="fa-solid fa-circle-info" ></i>&nbsp; Was
+                        wird automatisch korrigiert?</mat-panel-title>
+                </mat-expansion-panel-header>
+                <p>Gefundene Fehler können automatisch verbessert werden. Dazu gehören z. B.:</p>
+                <ul>
+                    <li>Entfernen von <span class="code">target="_blank</span></li>
+                    <li>Ersetzen von Umlauten und Sonderzeichen durch HTML-Entities</li>
+                    <li>Einfügen geschützter Leerzeichen vor € und %</li>
+                    <li>Anpassen von Bildpfaden, damit Bilder lokal geladen werden</li>
+                </ul>
+            </mat-expansion-panel>
+
+
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>&nbsp;<i class="fa-solid fa-circle-info" ></i>&nbsp; Welche
+                        Hinweise gibt die Anwendung aus?</mat-panel-title>
+                </mat-expansion-panel-header>
+                <p>Neben der eigentlichen Prüfung bekommst du hilfreiche Notizen, die dir beim Überblick helfen:</p>
+                <ul>
+                    <li>Welcher Header wird verwendet</li>
+                    <li>Welcher Impressum wird verwendet</li>
+                    <li>Welcher PreHeader wird verwendet</li>
+                    <li>Liste aller enthaltenen Links</li>
+                    <li>Bei ZIP-Datei: Hinweise auf ungenutzte Bilder oder unnötige Dateien in einer ZIP-Datei</li>
+                    <li>Bei ZIP-Datei: Größe der ZIP-Datei</li>
+                </ul>
+            </mat-expansion-panel>
+
+
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>&nbsp;<i class="fa-solid fa-circle-info" ></i>&nbsp; Was
+                        kann die Anwendung sonst prüfen?</mat-panel-title>
+                </mat-expansion-panel-header>
+                <p>
+                    Zusätzlich zur normalen Prüfung kontrolliert die Anwendung, ob die
+                    <b>Advance-Platzhalter</b> korrekt eingebunden sind:
+                </p>
+                <ul>
+                    <li><code class="code">&#123;header&#125;</code> – Kopfbereich der Mail</li>
+                    <li><code class="code">&#123;footer&#125;</code> – Footer bzw. Impressum</li>
+                    <li><code class="code">&#123;preHeader&#125;</code> – PreHeader-Text</li>
+                    <li><code class="code">&#123;landingpageUrl&#125;</code> – einziger erlaubter Platzhalter für Links
+                    </li>
+                </ul>
+                <p>
+                    Fehlen einer oder mehrere dieser Platzhalter, gibt die Anwendung klare
+                    <b>Fehlermeldungen</b> aus. Sind alle vorhanden, erscheint automatisch
+                    eine Hinweisnachricht, dass die Advance-Platzhalter korrekt verwendet werden.
+                </p>
+            </mat-expansion-panel>
+
+
+            
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>&nbsp;<i class="fa-solid fa-circle-info" ></i>&nbsp; Mail-Type Prüfung (Check Type)</mat-panel-title>
+                </mat-expansion-panel-header>
+                <p>
+                    Dieser Bereich der Anwendung dient dazu, den Typ eines Mail-Templates zu bestimmen. Damit kannst du schnell herausfinden, mit welchem Header oder welcher Struktur eine Vorlage arbeitet.
+                </p>
+
+                <p><b>Was geprüft wird:</b></p>
+                <ul>
+                   <li> Welcher Header im Template enthalten ist (z. B. Investor, GeVestor, maxLQ).</li>
+
+<li>Ob ein Impressum vorhanden ist.</li>
+
+<li>Ob ein PreHeader korrekt eingebunden wurde.</li>
+
+<li>Alle im Template enthaltenen Links.</li>
+
+<li>Ob es ungenutzte Bilder oder weitere Hinweise gibt.</li>
+              
+                </ul>
+                <p>
+                   Wird der Typ erkannt, öffnet sich ein Dialog-Fenster, das den erkannten Template-Typ anzeigt. Ist kein klarer Typ erkennbar, wird das Template als „Unbekannt“ gekennzeichnet.
+                </p>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+</div>
 </div>

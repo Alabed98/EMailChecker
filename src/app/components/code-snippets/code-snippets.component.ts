@@ -65,7 +65,6 @@ export class CodeSnippetsComponent {
         break;     
       default:this.code = "Unbekannt"
     }
- 
   }
 
   findSnippet(name:string) :string{

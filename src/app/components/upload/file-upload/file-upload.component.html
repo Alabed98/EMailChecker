@@ -1,12 +1,7 @@
 <div class="row">
-
   <div class="upload-container" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)"
     (drop)="onDrop($event)" [class.dragover]="isDragOver">
-
     <input type="file" #fileInput style="display: none" (change)="onFileSelected($event)" />
-
-    <!-- Schöner Button, der den Input triggert -->
     <button class="upload-btn" (click)="fileInput.click()">📁 Datei hochladen</button>
   </div>
-
 </div>

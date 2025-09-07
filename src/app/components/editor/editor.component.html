@@ -2,10 +2,12 @@
 <div class="editor">
 
 <ngx-codemirror
-[options]="codemirrorOptions"
-[(ngModel)]="content"
-(input)="checkErrors()"
->
+    [options]="codemirrorOptions"
+    [(ngModel)]="content"
+    (input)="checkErrors()"
+    (paste)="checkErrors()"
+    (drop)="checkErrors()"
+    >
 
 </ngx-codemirror>
 </div>

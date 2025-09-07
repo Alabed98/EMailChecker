@@ -5,12 +5,12 @@
   </div>
 
   <div class="options">
-    <select aria-label="Default select" (change)="deleteNotesAndErrors()" >
-      <option selected routerLink="" >Check E-Mail</option>
-      <option value="1" routerLink="/advance"> Advance</option>
-      <option value="2" routerLink="/checkEMailType" >Check Type</option>
-      <option value="3" routerLink="/Code-Snippets" >Code-Snippets</option>
-      <option value="4" routerLink="/docu">Über die Anwendung</option>
+    <select aria-label="Default select" (change)="deleteNotesAndErrors($event)" >
+      <option selected value="/checkEMail"  >Check E-Mail</option>
+      <option value="/advance" > Advance</option>
+      <option value="/checkEMailType"  >Check Type</option>
+      <option value="/Code-Snippets"  >Code-Snippets</option>
+      <option value="/docu">Info</option>
     </select>
   </div>
 </div>

@@ -1,17 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Notes } from '../notes';
 import { NotesService } from './notes.service';
-import JSZip from 'jszip';
-import { UploaderService } from './uploader.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CheckNotesService {
 
-  constructor(private notesService: NotesService,
-    private uploaderService:UploaderService
-  ) { }
+  constructor(private notesService: NotesService) { }
 
   checkNotes(html: string, htmlDom: Document): void {
       let notes:Notes = {

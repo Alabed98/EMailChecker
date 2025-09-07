@@ -16,7 +16,6 @@ export class CheckTypeService {
   preHeader:string = "";
   spamUndAbmelden:string = "";
   mailType = "Unbekannt";
-  private sub!:Subscription;
 
   check(content:string, dom:Document):string{
     this.setHeader(content);
@@ -76,8 +75,6 @@ export class CheckTypeService {
     if(content.includes("{landingpageUrl}")){
       this.link.push("{landingpageUrl}")
     }
-
-  
   }
   setPreHeader(content:string){
     if(content.includes("{preHeader}")){
@@ -158,6 +155,4 @@ export class CheckTypeService {
     }
     return this.mailType;
   }
-
-
 }

@@ -17,6 +17,5 @@ export class NotesMassageComponent {
   links: [],
   unusedImages: [],
   anotherNotes: []
-
   };
 }

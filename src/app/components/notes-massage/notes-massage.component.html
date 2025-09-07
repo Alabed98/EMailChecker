@@ -1,40 +1,37 @@
 <div class="notes">
 
-<h3><i class="fa-solid fa-note-sticky"></i> Hinweise</h3>
+  <h3><i class="fa-solid fa-note-sticky"></i> Hinweise</h3>
 
-<p><b>Verwendeter Header:</b> {{notesMassage.header}}</p>
+  <p><b>Verwendeter Header:</b> {{notesMassage.header}}</p>
 
-<p><b>Verwendetes Impressum:</b> {{notesMassage.impressum}}</p>
+  <p><b>Verwendetes Impressum:</b> {{notesMassage.impressum}}</p>
 
-<p><b>Verwendeter PreHeader:</b> {{notesMassage.preHeader}}</p>
+  <p><b>Verwendeter PreHeader:</b> {{notesMassage.preHeader}}</p>
 
-<p><b>Gefundene Links:</b> <span *ngIf="notesMassage.links.length <1"> Keine Links</span></p>
+  <p><b>Gefundene Links:</b> <span *ngIf="notesMassage.links.length <1"> Keine Links</span></p>
 
   <ul>
     <li *ngFor="let note of notesMassage.links" style="padding-bottom:5px">
-        {{ note }}
+      {{ note }}
     </li>
   </ul>
 
-<div *ngIf="notesMassage.unusedImages.length>0">
-  <p><b>Unbenutzte Bilder:</b></p>
-  <ul>
-    <li *ngFor="let note of notesMassage.unusedImages" style="padding-bottom:5px">
+  <div *ngIf="notesMassage.unusedImages.length>0">
+    <p><b>Unbenutzte Bilder:</b></p>
+    <ul>
+      <li *ngFor="let note of notesMassage.unusedImages" style="padding-bottom:5px">
         {{ note }}
-    </li>
-  </ul>
-</div>
+      </li>
+    </ul>
+  </div>
 
-
-<div *ngIf="notesMassage.anotherNotes.length>0">
-  <p><b>Zusätzliche Hinweise:</b></p>
+  <div *ngIf="notesMassage.anotherNotes.length>0">
+    <p><b>Zusätzliche Hinweise:</b></p>
 
     <ul>
-    <li *ngFor="let note of notesMassage.anotherNotes" style="padding-bottom:5px">
+      <li *ngFor="let note of notesMassage.anotherNotes" style="padding-bottom:5px">
         {{ note }}
-    </li>
-  </ul>
-</div>
-
-
+      </li>
+    </ul>
+  </div>
 </div>

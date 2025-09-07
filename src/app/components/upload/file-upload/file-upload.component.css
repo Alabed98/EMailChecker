@@ -8,8 +8,6 @@
   cursor: pointer;
   transition: background-color 0.2s ease;
   margin: 10px;
-
-
 }
 
 .upload-btn:hover {
@@ -23,5 +21,4 @@
 .upload-container.dragover {
   background-color: #b3b2b2;
   border-color: #3f51b5;
- 
 }

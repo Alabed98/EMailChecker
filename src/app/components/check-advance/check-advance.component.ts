@@ -7,12 +7,11 @@ import { NotesService } from '../../services/notes.service';
 import { Notes } from '../../notes';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject, takeUntil } from 'rxjs';
-import { FileUploadComponent } from "../upload/file-upload/file-upload.component";
-import { EditorComponent } from "../editor/editor.component";
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-check-advance',
-  imports: [UploadComponent, ErrorMassageComponent, NotesMassageComponent, FileUploadComponent, EditorComponent],
+  imports: [UploadComponent, ErrorMassageComponent, NotesMassageComponent,CommonModule],
   templateUrl: './check-advance.component.html',
   styleUrl: './check-advance.component.css'
 })
@@ -45,15 +44,15 @@ export class CheckAdvanceComponent implements OnDestroy {
       this.notes = {...data}
 
    if(
-        this.notes.header === "{header}" &&
-        this.notes.impressum === "{footer}" &&
-        this.notes.links.includes("{landingpageUrl}") &&
-        this.notes.preHeader === ("{preHeader}")      
+      this.notes.header === "{header}" &&
+      this.notes.impressum === "{footer}" &&
+      this.notes.links.includes("{landingpageUrl}") &&
+      this.notes.preHeader === ("{preHeader}")      
       ){
-        this.snackbar.open(
-          "Advance-Platzhalter werden verwendet", 
-          "Ok", 
-          {duration:4000, panelClass: ['green-snackbar', 'login-snackbar']})
+      this.snackbar.open(
+        "Advance-Platzhalter werden verwendet", 
+        "Ok", 
+        {duration:4000, panelClass: ['green-snackbar', 'login-snackbar']})
       }
     })
   }

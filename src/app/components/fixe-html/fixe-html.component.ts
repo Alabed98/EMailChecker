@@ -17,23 +17,23 @@ import { Subject, takeUntil } from 'rxjs';
   styleUrl: './fixe-html.component.css'
 })
 export class FixeHtmlComponent implements OnDestroy {
+  
   textarea:string = "";
   private destroy$ = new Subject<void>()
   notes:string[]=[];
+
   constructor(
     private validateEmail: ValidateEmailService, 
     private uploader: UploaderService,
     private checkErrorsService:CheckErrorsService
-  ){
+  )
+  {
     this.uploader.currentData$.subscribe(data=> {
       this.textarea = ""
     })
   }
 
    fixeCode(){
-    //this.uploader.currentData$.subscribe(data =>{ 
-    //  this.textarea = this.validateEmail.validate(data, "normal")[0];
-    //})
     let content = ""
     this.uploader.currentData$.pipe(takeUntil(this.destroy$)).subscribe(data => {
       content = this.checkErrorsService.correctCode(data)
