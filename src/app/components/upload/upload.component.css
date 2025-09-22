@@ -2,6 +2,17 @@
 .full-width {
   width: 100%;   
 }
+.fixe-btn {
+  padding: 10px 10px;
+  background-color: #edc139;
+  border: none;
+  color: black;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin: 10px;
+}
 
 .upload{
   background-color: #18181b;

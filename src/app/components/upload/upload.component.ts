@@ -10,6 +10,7 @@ import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { EditorComponent } from "../../components/editor/editor.component";
 import { Subject, takeUntil } from 'rxjs';
+import { CheckErrorsService } from '../../services/check-errors.service';
 
 
 export class AppModule {}
@@ -38,12 +39,16 @@ export class UploadComponent implements OnDestroy {
   constructor(
     private validateService: ValidateEmailService,
     private uploader:UploaderService,
+    private checkErrorsService:CheckErrorsService
   ) {
+     this.uploader.currentData$.pipe(takeUntil(this.destroy$)).subscribe( data => {
+      this.textarea = data;
+    })
   }
   private destroy$ = new Subject<void>()
   @Output() checkMailTypeEvent = new EventEmitter<string>()
 
-  async upload(file:File | string ){
+  /*async upload(file:File | string ){
     if(file instanceof File){
       this.validateService.validateZip(file)
     }
@@ -53,10 +58,17 @@ export class UploadComponent implements OnDestroy {
     this.uploader.currentData$.pipe(takeUntil(this.destroy$)).subscribe( data => {
       this.textarea = data;
     })
-  }
+  }*/
 
   ngOnDestroy(){
     this.destroy$.next()
     this.destroy$.complete()
+  }
+
+    fixeCode(){
+    let content = ""
+    this.uploader.currentData$.pipe(takeUntil(this.destroy$)).subscribe(data => {
+      content = this.checkErrorsService.correctCode(data)
+    })
   }
 }

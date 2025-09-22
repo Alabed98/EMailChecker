@@ -7,8 +7,11 @@ import { ErrorsService } from './errors.service';
 import JSZip from 'jszip';
 import { UploaderService } from './uploader.service';
 
-interface Result {
-  correctedCode: string;
+interface Info {
+  template:string,
+  fileSize:string,
+  fileName:string
+
 }
 
 @Injectable({ providedIn: 'root' })
@@ -27,7 +30,7 @@ constructor(
   imageType : string [] = ["png", "jpg", "gif"]
   images:string[] = [];
 
-  validate(html: string = '', emailType:string ): string {
+  validate(html: string = '', emailType:string ): Info {
 
     this.notesService.setNotes({
         header: '',
@@ -46,43 +49,44 @@ constructor(
     const parser = new DOMParser();
     const htmlDom = parser.parseFromString(html, 'text/html');
     let correctedCode:string = "";
-    let info="";
+    let info : Info={
+      template:"",
+      fileSize:"",
+      fileName:""
+    };
+
     switch(emailType){
       case 'advance':
         this.checkErrorsService.checkAdvance(html, htmlDom)
         this.checkNotesService.checkNotes(html, htmlDom);
         break;
       case 'checkType':
-        info =  this.checkTypeService.check(html, htmlDom)
+        info.template = this.checkTypeService.check(html, htmlDom)
         this.checkNotesService.checkNotes(html, htmlDom);
         break;
       default: 
+        info.template = this.checkTypeService.check(html, htmlDom)
         this.checkErrorsService.checkErrors(html,htmlDom);
         this.checkNotesService.checkNotes(html, htmlDom);
     }
     this.uploaderService.getData(html);
+    
     return info;
   }
 
-  async validateZip(file:File){
-    let notes = {
-      header: '',
-      impressum: '',
-      preHeader: '',
-      links: [],
-      unusedImages: [],
-      anotherNotes: []
-    };
-        //with the bib jszip can the zip-folder be readed
+  async validateZip(file:File) : Promise<Info>{
+
+    //with the bib jszip can the zip-folder be readed
     const zip = await JSZip.loadAsync(file);
     
     let content = "";
     const htmlEntries = Object.values(zip.files).filter(entry => entry.name.endsWith(".html"));
     if (htmlEntries.length > 0) {
       content = await htmlEntries[0].async("string");
-      this.validate(content, "")
     }
-    
+
+    let info:Info = this.validate(content, "")
+
     const imageEntries = Object.values(zip.files).filter(entry =>  this.imageType.some(type => entry.name.includes(type)))
     const images = imageEntries.map(entry => entry.name)
     const cssEntries = Object.values(zip.files).filter(entry => entry.name.endsWith("css"));
@@ -95,13 +99,17 @@ constructor(
       this.isImageUsed(images, content);
     }
     const zipSize=Math.floor(file.size / 1000);
-    
+
     if(zipSize> 999){
       this.addNotes("Die Größe der Zip-Datei ist: " + zipSize / 1000  + " mb")
+      info.fileSize = zipSize / 1000  + " mb";
+
     }
     else{
       this.addNotes("Die Größe der Zip-Datei ist: " + zipSize  + " kb")
+      info.fileSize = zipSize  + " kb";
     }
+    return info
   }
     
   isImageUsed(images:string [], content:string){

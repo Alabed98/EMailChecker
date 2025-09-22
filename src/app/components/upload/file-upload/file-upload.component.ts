@@ -2,6 +2,7 @@ import { Component, Output ,EventEmitter} from '@angular/core';
 import * as JSZip from 'jszip';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Notes } from '../../../notes';
+import { Data } from '@angular/router';
 
 @Component({
   selector: 'app-file-upload',
@@ -12,7 +13,7 @@ import { Notes } from '../../../notes';
 export class FileUploadComponent {
 
   isDragOver= false;
-  @Output() file = new EventEmitter<File| string>();
+  @Output() file = new EventEmitter<File>();
 
   constructor(
     private snackbar:MatSnackBar,
@@ -57,9 +58,8 @@ export class FileUploadComponent {
       
     }
     else if(file.name.match("html")){
-        file.text().then(data => {   
-          this.file.emit(data)
-      })
+
+       this.file.emit(file)
     }
     else{
       this.snackbar.open("Dateitype ist nicht erlaubt", "Ok", {duration:3000})

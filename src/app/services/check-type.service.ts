@@ -142,7 +142,7 @@ export class CheckTypeService {
       return "Webinar Investor"
     }
 
-    return "unbekannt"
+    return "Unbekannt"
   }
   checkInvestor():string{
     if(

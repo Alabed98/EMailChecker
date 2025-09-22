@@ -5,12 +5,11 @@
   </div>
 
   <div class="options">
-    <select aria-label="Default select" (change)="deleteNotesAndErrors($event)" >
-      <option selected value="/checkEMail"  >Check E-Mail</option>
-      <option value="/advance" > Advance</option>
-      <option value="/checkEMailType"  >Check Type</option>
-      <option value="/Code-Snippets"  >Code-Snippets</option>
-      <option value="/docu">Info</option>
+    <select aria-label="Navigation" [(ngModel)]="selectedRoute" (change)="deleteNotesAndErrors($event)" >
+      <option value="" disabled selected style="color:white">Bitte auswählen...</option>
+      <option value="checkEMail">Check E-Mail</option>
+      <option value="Code-Snippets">Code-Snippets</option>
+      <option value="docu">Info</option>
     </select>
   </div>
 </div>

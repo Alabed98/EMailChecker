@@ -1,24 +1,39 @@
 .upload-btn {
-  padding: 10px 10px;
-  background-color: #b9211c;
-  border: none;
-  color: white;
+  padding: 30px 10px;
+  color: #a0a0b3;
   font-weight: bold;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.2s ease;
   margin: 10px;
+  max-width: 600px;
+  width: 100%;
+  background-color: #18181b;
+  border: none;
 }
 
 .upload-btn:hover {
-  background-color: #7f201d;
+  background-color: #555555;
 }
 
 .upload-container {
   transition: background-color 0.2s ease, border-color 0.2s ease;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 600px;
+  background-color: #18181b;
+  border: 1px dashed #228be6;
+  border-radius: 5px;
+}
+.upload-btn.dragover{
+  background-color: #555555 !important;
+  
+
+}
+.upload-container.dragover {
+  
+  background-color: #555555 !important;
+  border-color: #3f51b5 dashed 3px;
 }
 
-.upload-container.dragover {
-  background-color: #b3b2b2;
-  border-color: #3f51b5;
-}

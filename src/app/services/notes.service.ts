@@ -20,6 +20,8 @@ export class NotesService {
   currentNotes$ = this.notes.asObservable();
 
   setNotes(notes:Notes){
+    console.log('setErrors() aufgerufen mit:', notes);
+
     this.notes.next(notes)
   }
 

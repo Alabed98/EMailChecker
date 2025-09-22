@@ -1,7 +1,9 @@
 <div class="upload">
   <div class="btn">
-    <app-file-upload (file)="upload($event)"></app-file-upload>
-  </div>
+  <!--<app-file-upload (file)="upload($event)"></app-file-upload>-->
+  <button class="fixe-btn" type="submit" (click)="fixeCode()"><i class="fa-solid fa-circle-check"></i> Code
+    korrigieren</button>
+   </div>
 
   <div class="wrapper">
     <app-editor class="small" [content]="textarea" [emailType]="emailType" ></app-editor>

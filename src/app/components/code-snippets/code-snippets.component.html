@@ -38,7 +38,9 @@
         </div>
         <div class="options" style="margin-top: 20px;">
             <h3><i class="fa-solid fa-circle-info"></i> Info</h3>
-            {{infos}}
+            <ul >
+                <li *ngFor="let i of infos" >{{ i }}</li>            
+            </ul>
         </div>
     </div>
 
