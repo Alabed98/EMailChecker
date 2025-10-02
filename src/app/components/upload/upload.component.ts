@@ -37,28 +37,16 @@ export class UploadComponent implements OnDestroy {
   @Input() emailType:string = "normal";
 
   constructor(
-    private validateService: ValidateEmailService,
     private uploader:UploaderService,
     private checkErrorsService:CheckErrorsService
   ) {
      this.uploader.currentData$.pipe(takeUntil(this.destroy$)).subscribe( data => {
       this.textarea = data;
     })
+    
   }
   private destroy$ = new Subject<void>()
   @Output() checkMailTypeEvent = new EventEmitter<string>()
-
-  /*async upload(file:File | string ){
-    if(file instanceof File){
-      this.validateService.validateZip(file)
-    }
-    else if(typeof file === "string"){
-     this.checkMailTypeEvent.emit(this.validateService.validate(file, this.emailType))
-    }
-    this.uploader.currentData$.pipe(takeUntil(this.destroy$)).subscribe( data => {
-      this.textarea = data;
-    })
-  }*/
 
   ngOnDestroy(){
     this.destroy$.next()

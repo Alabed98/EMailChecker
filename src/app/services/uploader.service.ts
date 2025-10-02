@@ -13,4 +13,8 @@ export class UploaderService {
   getData(file:string){
     this.data.next(file)
   }
+
+  deleteUpload(){
+    this.data.next("");
+  }
 }

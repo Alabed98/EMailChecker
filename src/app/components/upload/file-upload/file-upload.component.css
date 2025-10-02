@@ -25,11 +25,10 @@
   background-color: #18181b;
   border: 1px dashed #228be6;
   border-radius: 5px;
+  position:relative;
 }
 .upload-btn.dragover{
   background-color: #555555 !important;
-  
-
 }
 .upload-container.dragover {
   
@@ -37,3 +36,16 @@
   border-color: #3f51b5 dashed 3px;
 }
 
+.btnClose{
+  box-sizing: border-box;
+  width: 20px !important;
+  height: 20px!important;
+  cursor: pointer;
+  background:#555555;
+  border:none;
+  padding-right: 20px;
+  padding-top: 5px;
+  position: absolute;
+  top:0;
+  right: 0;
+}

@@ -6,6 +6,7 @@ import { NotesService } from './notes.service';
 import { ErrorsService } from './errors.service';
 import JSZip from 'jszip';
 import { UploaderService } from './uploader.service';
+import { ZipFileService } from './zip-file.service';
 
 interface Info {
   template:string,
@@ -24,7 +25,8 @@ constructor(
   private checkNotesService:CheckNotesService,
   private notesService:NotesService,
   private errorsService:ErrorsService, 
-  private uploaderService:UploaderService
+  private uploaderService:UploaderService,
+  private zipFileService:ZipFileService
 ) {}
 
   imageType : string [] = ["png", "jpg", "gif"]
@@ -75,7 +77,6 @@ constructor(
   }
 
   async validateZip(file:File) : Promise<Info>{
-
     //with the bib jszip can the zip-folder be readed
     const zip = await JSZip.loadAsync(file);
     
@@ -88,9 +89,11 @@ constructor(
     let info:Info = this.validate(content, "")
 
     const imageEntries = Object.values(zip.files).filter(entry =>  this.imageType.some(type => entry.name.includes(type)))
+
     const images = imageEntries.map(entry => entry.name)
+
     const cssEntries = Object.values(zip.files).filter(entry => entry.name.endsWith("css"));
-       
+
     if(cssEntries.length > 0){
       this.addNotes("Die Zip-Datei enthält CSS-Dateien")
     }
@@ -109,6 +112,13 @@ constructor(
       this.addNotes("Die Größe der Zip-Datei ist: " + zipSize  + " kb")
       info.fileSize = zipSize  + " kb";
     }
+    let files = Object.values(zip.files).filter(e => !this.imageType.some(entry => e.name.includes(entry))).map(e => e.name);
+  
+    this.zipFileService.setData({
+      file:files,
+      images:images
+    })
+
     return info
   }
     

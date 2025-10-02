@@ -56,8 +56,24 @@ export class CheckErrorsService  {
       ){
         errors.push(`${lineNumber}: Bild wird nicht lokal geladen`)
       }
-    
+
+      if(line.includes("</br>")){
+        errors.push(`${lineNumber}: Ungültiges Tag </br> – bitte <br> verwenden.`)
+      }
+      
+      if(line.includes('...')){
+        errors.push(`${lineNumber}: "..." gefunden – bitte Code für Auslassungspunkte verwenden (&hellip;).`)
+      }
     });
+
+    let links = htmlDom.querySelectorAll("a");
+    links.forEach(link => {
+      let linkNumber = 1;
+      if(link.textContent?.includes('{EMAIL')){
+        errors.push(`Link ${linkNumber}: Platzhalter "{EMAIL}" darf nicht verlinkt sein.`)
+      }
+      linkNumber ++;
+    })
 
     if (html.trim() === '') {
       errors.push('Eingabe ist leer – bitte HTML-Code einfügen.');
@@ -123,6 +139,8 @@ export class CheckErrorsService  {
     content = content.replace(/ß/g, '&szlig;');
     content = content.replaceAll(" %", "&nbsp;%");
     content = content.replaceAll("../a ", "");
+    content = content.replaceAll("...", "&hellip;")
+    content = content.replaceAll("</br>", "<br>")
     content = content.replaceAll("https://static.fid-images.de/Investor/lp/bilder", "images");
     content = content.replaceAll("https://static.fid-images.de/maxLQ/lp/bilder", "images");
     return content;

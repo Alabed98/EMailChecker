@@ -18,11 +18,20 @@ app-editor.small .CodeMirror {
     --mdc-snackbar-supporting-text-color: white; 
 }
 
+.red-snackbar{
+    --mdc-snackbar-container-color: #b21f1a;
+    --mdc-snackbar-supporting-text-color: white; 
+}
+
 .green-snackbar .mat-mdc-snack-bar-action {
-  color: white !important;   /* z. B. Amber */
+  color: white !important;
   font-weight: bold;
 }
 .componentbody{
   box-sizing: border-box;
   padding: 20px 0;
+}
+
+.mat-mdc-simple-snack-bar{
+  white-space: pre-line !important;
 }

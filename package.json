@@ -24,6 +24,7 @@
     "angular": "^1.8.3",
     "bootstrap": "^5.3.7",
     "codemirror": "^5.65.9",
+    "exif-js": "^2.3.0",
     "jszip": "^3.10.1",
     "ngx-bootstrap": "^19.0.2",
     "ngx-codemirror": "^1.0.0",

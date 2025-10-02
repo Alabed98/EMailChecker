@@ -1,11 +1,15 @@
 <div class="row">
+
   <div class="upload-container" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)"
     (drop)="onDrop($event)" [class.dragover]="isDragOver">
     <input type="file" #fileInput style="display: none" (change)="onFileSelected($event)" />
+
     <button class="upload-btn" (click)="fileInput.click()" [class.dragover]="isDragOver">
-      
       <i style="margin: 10px 0;margin-bottom: 15px;" class="fa-solid fa-cloud-arrow-up fa-xl"></i> <br>
-      
-      Klicken Sie zum Durchsuchen, oder ziehen Sie eine Datei per Drag & Drop hierher.</button>
+      Klicken Sie zum Durchsuchen, oder ziehen Sie eine Datei per Drag & Drop hierher.
+    </button>
+    
+    <button *ngIf="btnClose" class="btnClose" (click)="deleteUpload()"><i class="fa-solid fa-square-xmark fa-lg"></i></button>
+
   </div>
 </div>

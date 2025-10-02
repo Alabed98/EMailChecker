@@ -23,7 +23,6 @@ export class FixeHtmlComponent implements OnDestroy {
   notes:string[]=[];
 
   constructor(
-    private validateEmail: ValidateEmailService, 
     private uploader: UploaderService,
     private checkErrorsService:CheckErrorsService
   )

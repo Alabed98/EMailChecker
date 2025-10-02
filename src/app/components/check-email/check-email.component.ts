@@ -6,7 +6,7 @@ import { ErrorMassageComponent } from "../error-massage/error-massage.component"
 import { NotesService } from '../../services/notes.service';
 import { NotesMassageComponent } from "../notes-massage/notes-massage.component";
 import { Notes } from '../../notes';
-import { Subject, takeUntil } from 'rxjs';
+import { retry, Subject, takeUntil, timeout } from 'rxjs';
 import { FileUploadComponent } from "../upload/file-upload/file-upload.component";
 import { ValidateEmailService } from '../../services/validate-email.service';
 import { EditorComponent } from "../editor/editor.component";
@@ -14,13 +14,17 @@ import { UploaderService } from '../../services/uploader.service';
 import { CheckErrorsService } from '../../services/check-errors.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {CommonModule} from '@angular/common'
+import { ZipFileService } from '../../services/zip-file.service';
 
 interface Info {
   template:string,
   fileSize:string,
   fileName:string
 }
-
+interface FileData{
+  file:string[]
+  images:string[]
+}
 @Component({
   selector: 'app-check-email',
   imports: [UploadComponent, FixeHtmlComponent, ErrorMassageComponent, NotesMassageComponent, FileUploadComponent, EditorComponent,CommonModule],
@@ -35,6 +39,8 @@ export class CheckEmailComponent implements OnDestroy {
   textarea:string = '';
   correctedCode:string ='';
   isVisible = false;
+  closeButton = false;
+  zipFileData!:FileData;
 
   constructor(
     private errorsService:ErrorsService, 
@@ -42,7 +48,8 @@ export class CheckEmailComponent implements OnDestroy {
     private validateService:ValidateEmailService,
     private uploader:UploaderService,
     private checkErrorsService:CheckErrorsService,
-    private snackbar:MatSnackBar
+    private snackbar:MatSnackBar,
+    private ZipFileService:ZipFileService
 
   ) {
   }
@@ -56,6 +63,8 @@ export class CheckEmailComponent implements OnDestroy {
     this.notesService.currentNotes$.pipe(takeUntil(this.destroy$)).subscribe(data=>{
       this.notes = data;
     })
+
+    this.closeButton = this.textarea.length> 0 ? false:true;
   }
 
   ngOnDestroy(){
@@ -89,13 +98,55 @@ export class CheckEmailComponent implements OnDestroy {
     this.uploader.currentData$.pipe(takeUntil(this.destroy$)).subscribe( data => {
       this.textarea = data;
     })
-
+    this.closeButton = this.textarea.length> 0 ? false:true;
+    this.ZipFileService.currentData$.subscribe(
+      data => {
+        this.zipFileData = data
+      }
+    )
   }
 
   fixeCode(){
+    let content = ""
     this.uploader.currentData$.pipe(takeUntil(this.destroy$)).subscribe(data => {
-      this.correctedCode = this.checkErrorsService.correctCode(data)
+      content = data;
     })
+
+    this.correctedCode = this.checkErrorsService.correctCode(content)
+
+    const parser = new DOMParser();
+    this.checkErrorsService.checkErrors(this.correctedCode, parser.parseFromString(this.correctedCode, "text/html"))
+
+    let snackbarBackgroundColor:string = this.errors[0] === "Keine Probleme gefunden" ? "green-snackbar" : "red-snackbar";
+    let notesMassage;
+    if(this.errors[0] === "Keine Probleme gefunden"){
+
+      this.snackbar.open(
+      "Super! Alle Fehler sind behoben",
+      "Ok", 
+      {duration:10000, panelClass:[snackbarBackgroundColor]}
+      )
+    }
+    else{
+      this.snackbar.open(
+      "Einige Fehler sind noch nicht behoben:\n" + 
+      this.errors.join('\n'), 
+      "Ok", 
+      {duration:10000, panelClass:[snackbarBackgroundColor]}
+      )
+    }
+    this.closeButton = this.textarea.length> 0 ? false:true;
+  }
+
+  uploadState(state:boolean){
+    if(state){
+      this.correctedCode = "";
+      this.uploaded=false
+    } 
+  }
+
+  deleteNotes(){
+    this.uploaded=false
   }
 
   accordion(){

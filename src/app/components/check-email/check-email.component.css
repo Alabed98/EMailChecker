@@ -115,7 +115,43 @@ p{
 .notesArea{
     width: 590px;
     max-width: 100%;
-    background-color: #555555;
+    background-color: #18181b;
     margin:0px 10px;
     border-radius: 5px;
+    color:#a0a0b3;
+    position: relative;
+}
+
+.mat-mdc-simple-snack-bar{
+  white-space: pre-line !important;
+}
+
+.noteItems li{
+    padding-bottom: 5px
+}
+
+.btnClose{
+  box-sizing: border-box;
+  width: 20px !important;
+  height: 20px!important;
+  cursor: pointer;
+  border:none;
+  padding-right: 20px;
+  padding-top: 5px;
+  position: absolute;
+  top:0;
+  right: 0;
+  background: none;
+}
+
+.btnClose i {
+    color:#555555
+}
+
+.btnFileInfo{
+    background-color: #555555;
+    border: none;
+    color:white;
+    border-radius: 5px;
+    cursor: pointer;
 }
