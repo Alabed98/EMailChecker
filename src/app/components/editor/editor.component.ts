@@ -1,6 +1,6 @@
 import { Component, Input, ViewChild, AfterViewInit  } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CodemirrorModule } from "@ctrl/ngx-codemirror";
+import { CodemirrorModule,CodemirrorComponent  } from "@ctrl/ngx-codemirror";
 import 'codemirror/mode/javascript/javascript';
 import { UploaderService } from '../../services/uploader.service';
 import { ValidateEmailService } from '../../services/validate-email.service';
@@ -11,7 +11,7 @@ import { ValidateEmailService } from '../../services/validate-email.service';
   templateUrl: './editor.component.html',
   styleUrl: './editor.component.css'
 })
-export class EditorComponent implements AfterViewInit  {
+export class EditorComponent implements AfterViewInit {
 
   codemirrorOptions :any = {
     theme:'abcdef',
@@ -34,12 +34,9 @@ export class EditorComponent implements AfterViewInit  {
     this.validateService.validate(this.content, this.emailType)
   }
 
-  onEditorFocus(editor:any){
-    setTimeout(() =>editor.refresh(), 50);
-  }
-  ngAfterViewInit(){
-    setTimeout(() => 
-      this.editorComponent.codemirror.refresh(), 50
-    );
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.editorComponent.codeMirror.refresh();
+    }, 50);
   }
 }

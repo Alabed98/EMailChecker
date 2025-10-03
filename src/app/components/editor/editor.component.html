@@ -2,13 +2,13 @@
 <div class="editor">
 
 <ngx-codemirror
+    #editor
     [options]="codemirrorOptions"
     [(ngModel)]="content"
     (input)="checkErrors()"
     (paste)="checkErrors()"
     (drop)="checkErrors()"
-    (focus)="onEditorFocus($event)"
-    >
+      >
 
 </ngx-codemirror>
 </div>
