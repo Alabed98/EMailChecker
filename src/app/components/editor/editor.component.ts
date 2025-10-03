@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild, AfterViewInit  } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CodemirrorModule } from "@ctrl/ngx-codemirror";
 import 'codemirror/mode/javascript/javascript';
@@ -7,11 +7,11 @@ import { ValidateEmailService } from '../../services/validate-email.service';
 
 @Component({
   selector: 'app-editor',
-   imports: [FormsModule, CodemirrorModule],
+   imports: [FormsModule, CodemirrorModule ],
   templateUrl: './editor.component.html',
   styleUrl: './editor.component.css'
 })
-export class EditorComponent {
+export class EditorComponent implements AfterViewInit  {
 
   codemirrorOptions :any = {
     theme:'abcdef',
@@ -23,7 +23,8 @@ export class EditorComponent {
     autoCloseBrackets: true,
     matchBrackets: true,
   }
- 
+ @ViewChild('editor') editorComponent: any;
+
   @Input() content!:string;
   @Input() emailType!:string;
   
@@ -34,7 +35,11 @@ export class EditorComponent {
   }
 
   onEditorFocus(editor:any){
-    setTimeout(() =>editor.refresh(), 0);
+    setTimeout(() =>editor.refresh(), 50);
   }
-
+  ngAfterViewInit(){
+    setTimeout(() => 
+      this.editorComponent.codemirror.refresh(), 50
+    );
+  }
 }
