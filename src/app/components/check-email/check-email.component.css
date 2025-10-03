@@ -141,11 +141,11 @@ p{
   position: absolute;
   top:0;
   right: 0;
-  background: none;
+  background-color: Transparent!important;  
 }
 
 .btnClose i {
-    color:#555555
+    color:#a0a0a2
 }
 
 .btnFileInfo{

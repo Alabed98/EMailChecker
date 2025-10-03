@@ -33,4 +33,8 @@ export class EditorComponent {
     this.validateService.validate(this.content, this.emailType)
   }
 
+  onEditorFocus(editor:any){
+    setTimeout(() =>editor.refresh(), 0);
+  }
+
 }

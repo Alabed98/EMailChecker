@@ -41,11 +41,15 @@
   width: 20px !important;
   height: 20px!important;
   cursor: pointer;
-  background:#555555;
+  background-color: Transparent!important;  
   border:none;
   padding-right: 20px;
   padding-top: 5px;
   position: absolute;
   top:0;
   right: 0;
+}
+
+.btnClose i{
+  color:#a0a0a2
 }
